@@ -1,4 +1,4 @@
-package Controlador:: ListaDoblemente;
+package Controlador::ListaDoblemente;
 
 use strict;
 use warnings;

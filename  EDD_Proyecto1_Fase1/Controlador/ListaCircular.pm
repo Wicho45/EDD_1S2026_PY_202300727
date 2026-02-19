@@ -82,3 +82,5 @@ sub imprimir{
     } while ($actual != $self->{cabeza});
     print "(vuelta a cabeza)\n";
 }
+
+1;
