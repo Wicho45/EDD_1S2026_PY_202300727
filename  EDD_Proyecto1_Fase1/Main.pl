@@ -19,7 +19,12 @@ use constant Medicamento => 'Modelo::Medicamento';
 use Modelo::Proveedor;
 use constant Proveedor => 'Modelo::Proveedor';
 
-sub main{
+use Controlador::RegistraMedicamento;
+use constant RegistraMedicamento => 'Controlador::RegistraMedicamento';
+
+sub main {
+
+    my $lista_inventario = ListaDoblemente -> new();
 
     while (1){
         print "\n------------- Inicio de sesión -------------\n";
@@ -31,14 +36,14 @@ sub main{
         my $opcion_inicio = <STDIN>;
         chomp $opcion_inicio;
 
-        my $terminar = inicio_sesion($opcion_inicio);
+        my $terminar = inicio_sesion($opcion_inicio, $lista_inventario);
         last if $terminar;
     }   
 }
 
-sub inicio_sesion{
+sub inicio_sesion {
     
-    my ($opcion) = @_;
+    my ($opcion, $lista_inventario) = @_;
 
     if ($opcion == 1){
         print "\n Ingrese usuario: \n";
@@ -50,8 +55,7 @@ sub inicio_sesion{
         chomp $contrasena_admin;
         
         if ($usuario_admin eq "admin" and $contrasena_admin eq "admin" ){
-            
-            menu_administrador();
+            menu_administrador($lista_inventario);
         }else{
             print "\n Usuario o contraseña incorrectos. Intente nuevamente.\n";
             return 0;
@@ -85,41 +89,55 @@ sub inicio_sesion{
 
 }
 
-sub menu_administrador{
-    
-    my $bandera = 1;
 
-    while ($bandera){
+sub menu_administrador {
+    my ($lista_inventario) = @_;
+    my $continuar_menu = 1;
+
+    while ($continuar_menu) {
         print "\n------------- Administrador -------------\n";
-        print "\n1. Registrar medicamentos";
-        print "\n2. Cargar masiva de medicamentos";
-        print "\n3. Gestionar proveedores";
-        print "\n4. Registrar entrega de proveedor";
-        print "\n5. Procesar solicitudes de reabastecimiento";
-        print "\n6. Visualizar inventario completo";
-        print "\n7. Consultar inventario por proveedor";
-        print "\n8. Salir\n";
-        print "\nSelecccione una opción: \n";
+        print "1. Registrar medicamentos\n";
+        print "2. Carga masiva de medicamentos\n";
+        print "3. Gestionar proveedores\n";
+        print "4. Registrar entrega de proveedor\n";
+        print "5. Procesar solicitudes de reabastecimiento\n";
+        print "6. Visualizar inventario completo\n";
+        print "7. Consultar inventario por proveedor\n";
+        print "8. Cerrar Sesión\n";
+        print "\nSeleccione una opción: ";
 
-        my $opcion_administrador = <STDIN>;
-        chomp $opcion_administrador;
+        my $opcion = <STDIN>;
+        chomp $opcion;
 
-        if ($opcion_administrador == 1){
+        if ($opcion == 1) {
+            print "\n--- Registrar medicamentos ---\n";
+            RegistraMedicamento->registrarMedicamento($lista_inventario);
+            
+        } elsif ($opcion == 2) {
+            print "\n-------------- Carga Masiva --------------\n";
+            print "Ingrese la ruta del archivo a cargar:\n";
+            my $ruta_archivo = <STDIN>;
+            chomp $ruta_archivo;
+            RegistraMedicamento->cargaMasiva($lista_inventario, $ruta_archivo);
 
-        } elsif ($opcion_administrador == 8){
-            print "\n Saliendo del programa. ¡Hasta luego!\n";
-            $bandera = 0;
+            #Ruta de prueba para cargar masiva: /Volumes/Información y Archivos/Separadores cartapacios/prueba_f1.csv
+
+        } elsif($opcion == 6){
+            print "\n-------------- Visualizar Inventario --------------\n";
+            $lista_inventario->imprimir();
+
+        } elsif ($opcion == 8) {
+            print "\nCerrando sesión de administrador...\n";
+            $continuar_menu = 0; 
+
         } else {
-            print "\n Opción inválida. Por favor, seleccione una opción válida.\n";
-            $bandera = 1;
+            print "\nOpción inválida.\n";
         }
     }
-
-    return 0;
-
+    return 0; 
 }
 
-sub menu_usuario_departamental{
+sub menu_usuario_departamental {
 
 }
 

@@ -84,4 +84,16 @@ sub set_nivel_reorden{
     $self->{nivel_reorden} = $nivel_reorden;
 }   
 
+sub es_identico {
+    my ($self, $otro) = @_;
+
+    return (
+        $self->{nombre}            eq $otro->{nombre}           &&
+        $self->{principio_activo}  eq $otro->{principio_activo} &&
+        $self->{laboratorio}       eq $otro->{laboratorio}      &&
+        $self->{precio_unitario}   == $otro->{precio_unitario}  &&
+        $self->{fecha_vencimiento} eq $otro->{fecha_vencimiento}
+    );
+}
+
 1;

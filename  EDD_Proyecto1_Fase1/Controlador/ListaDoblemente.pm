@@ -18,78 +18,102 @@ sub new {
 }
 
 #lista vacia
-sub is_empty{
+sub is_empty {
     my ($self) = @_;
     return !defined($self->{cabeza}) ? 1:0;
 }
 
-sub insertar{
-    my ($self, $data) = @_;
+sub insertar {
+    my ($self, $nuevo_med) = @_;
+    my $nuevo_cod = $nuevo_med->get_codigo_medicamento();
 
-    my $nuevo_nodo = Nodo -> new($data);
-
-    $nuevo_nodo -> set_next($self -> {cabeza});
-
-    if(defined($self -> {cabeza})){
-        $self -> {cabeza} -> set_prev($nuevo_nodo);
+    if ($self->is_empty()) {
+        my $nuevo_nodo = Nodo->new($nuevo_med);
+        $self->{cabeza} = $nuevo_nodo;
+        $self->{cola} = $nuevo_nodo;
+        return "Primer medicamento registrado: $nuevo_cod";
     }
 
-    $self -> {cabeza} = $nuevo_nodo;
+    my $actual = $self->{cabeza};
+    while (defined($actual)) {
+        my $med_en_lista = $actual->get_data();
+        
+        if ($med_en_lista->get_codigo_medicamento() eq $nuevo_cod) {
+            if ($med_en_lista->es_identico($nuevo_med)) {
+                return "Omitido: El medicamento con código $nuevo_cod ya existe con los mismos datos.";
+            } 
+            else {
+                return "COLISION: El código $nuevo_cod ya existe con otros datos.";
+            }
+        }
+        $actual = $actual->get_next();
+    }
 
-    if(!defined($self -> {cola})){
-        $self -> {cola} = $nuevo_nodo;
+    $actual = $self->{cabeza};
+
+    if ($nuevo_cod lt $actual->get_data()->get_codigo_medicamento()) {
+        my $nuevo_nodo = Nodo->new($nuevo_med);
+        $nuevo_nodo->set_next($self->{cabeza});
+        $self->{cabeza}->set_prev($nuevo_nodo);
+        $self->{cabeza} = $nuevo_nodo;
+        return "Insertado al inicio: $nuevo_cod";
+    }
+
+    while (defined($actual->get_next()) && 
+        $actual->get_next()->get_data()->get_codigo_medicamento() lt $nuevo_cod) {
+        $actual = $actual->get_next();
+    }
+
+    if (!defined($actual->get_next())) {
+        $self->agregar_final($nuevo_med);
+        return "Agregado al final: $nuevo_cod";
+    } else {
+        my $nuevo_nodo = Nodo->new($nuevo_med);
+        my $siguiente = $actual->get_next();
+
+        $nuevo_nodo->set_next($siguiente);
+        $nuevo_nodo->set_prev($actual);
+        
+        $siguiente->set_prev($nuevo_nodo);
+        $actual->set_next($nuevo_nodo);
+        
+        return "Insertado ordenadamente: $nuevo_cod";
     }
 }
 
 sub eliminar {
-    my ($self, $data) = @_;
+    my ($self, $codigo) = @_; 
 
-    #la lista esta vacia
-    if($self -> is_empty()){
-        print "\n La lista se encuentra vacia\n";
-        return;
-    }
+    return if $self->is_empty();
 
-    #eliminar cabeza
-    if($self -> {cabeza} -> get_data() eq $data){
+    my $actual = $self->{cabeza};
 
-        if(defined($self -> {cabeza} -> get_next())){
-            $self -> {cabeza} = $self -> {cabeza} -> get_next();
-        }
-
-        $self -> {cabeza} =  $self -> {cabeza} -> get_next();
-
-        if(!defined($self -> {cabeza})){
-            $self -> {cola} = undef;
-        }
-
-        print "\n Nodo eliminado con exito (cabeza) \n ";
-        return;
-    }
-
-    #eliminar al medio 
-
-    my $actual = $self -> {cabeza} -> get_next();
-
-    while(defined($actual)){
-        if($actual -> get_data() eq $data){
-
-            if(defined($actual -> get_next())){
-                $actual -> get_prev() -> set_prev($actual -> get_prev());
-            } else {
-                $self -> {cola} = $actual -> get_prev();
+    while (defined($actual)) {
+        if ($actual->get_data()->get_codigo() eq $codigo) {
+            
+            # Si es la cabeza
+            if ($actual == $self->{cabeza}) {
+                $self->{cabeza} = $actual->get_next();
+                $self->{cabeza}->set_prev(undef) if defined($self->{cabeza});
+            } 
+            # Si es la cola
+            elsif ($actual == $self->{cola}) {
+                $self->{cola} = $actual->get_prev();
+                $self->{cola}->set_next(undef) if defined($self->{cola});
+            }
+            # Si está en medio
+            else {
+                $actual->get_prev()->set_next($actual->get_next());
+                $actual->get_next()->set_prev($actual->get_prev());
             }
 
-            if(defined($actual -> get_prev())){
-                $actual -> get_prev() -> set_next($actual -> get_next());
-            }
-
-            print "\n Nodo eliminado con exito (medio) \n ";
+            # Si la lista quedó vacía
+            $self->{cola} = undef if !defined($self->{cabeza});
+            
+            print "\nMedicamento $codigo eliminado.\n";
             return;
         }
-
-        $actual = $actual -> get_next();
-
+        $actual = $actual->get_next();
     }
 }
 
@@ -112,7 +136,7 @@ sub agregar_final{
 
 }
 
-sub imprimir{
+sub imprimir {
 
     my ($self) = @_;
 
@@ -127,12 +151,16 @@ sub imprimir{
     my $actual = $self -> {cabeza};
 
     while(defined($actual)){
-
-        print $actual -> get_data() ;
-
-        if(defined($actual -> get_next())){
-            print " <-> ";
-        }
+        print "\nCodigo: " . $actual -> get_data() -> get_codigo_medicamento() . "\n";
+        print "Nombre comercial: " . $actual -> get_data() -> get_nombre_comercial() . "\n";
+        print "Principio activo: " . $actual -> get_data() -> get_principio_activo() . "\n";
+        print "Laboratorio: " . $actual -> get_data() -> get_laboratorio_fabricante() . "\n";
+        print "Stock: " . $actual -> get_data() -> get_stock() . "\n";
+        print "Vencimiento: " . $actual -> get_data() -> get_vencimiento() . "\n";
+        print "Precio: " . $actual -> get_data() -> get_precio() . "\n";
+        print "Nivel reorden: " . $actual -> get_data() -> get_nivel_reorden() . "\n";
+        print "\n";
+        
         $actual = $actual -> get_next();
     }
 
@@ -154,7 +182,7 @@ sub buscar{
 
 }
 
-sub lenth{
+sub tamanio{
     my ($self) = @_;
 
     my $contador = 0;
