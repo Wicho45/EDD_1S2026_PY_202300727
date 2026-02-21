@@ -3,14 +3,18 @@ package Modelo::Proveedor;
 use strict;
 use warnings;
 
+use Controlador::ListaSimple;
+use constant ListaSimple => 'Controlador::ListaSimple';
+
 sub new {
     my($class, $nit, $nombre_empresa, $contacto_principal, $telefono, $direccion)= @_;
-    my $self ={
+    my $self = {
         nit => $nit,
         nombre_empresa => $nombre_empresa,
         contacto_principal => $contacto_principal,
         telefono => $telefono,
-        direccion => $direccion
+        direccion => $direccion, 
+        historial => ListaSimple -> new()
     };
     return bless $self, $class;
 }
@@ -54,6 +58,10 @@ sub get_direccion{
 sub set_direccion{
     my($self, $direccion) = @_;
     $self->{direccion} = $direccion;
+}
+
+sub get_historial{
+    return $_[0]->{historial -> imprimir()};
 }
 
 1;

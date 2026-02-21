@@ -88,12 +88,11 @@ sub es_identico {
     my ($self, $otro) = @_;
 
     return (
-        $self->{nombre}            eq $otro->{nombre}           &&
+        $self->{nombre_comercial}            eq $otro->{nombre_comercial}           &&
         $self->{principio_activo}  eq $otro->{principio_activo} &&
-        $self->{laboratorio}       eq $otro->{laboratorio}      &&
-        $self->{precio_unitario}   == $otro->{precio_unitario}  &&
-        $self->{fecha_vencimiento} eq $otro->{fecha_vencimiento}
+        $self->{laboratorio_fabricante}       eq $otro->{laboratorio_fabricante}     
     );
 }
 
 1;
+

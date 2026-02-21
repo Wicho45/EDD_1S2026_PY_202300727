@@ -13,6 +13,8 @@ sub new {
         codigo_medicamento => $codigo_medicamento,
         cantidad_entregada => $cantidad_entregada
     };
+
+    return bless $self, $class;
 }
 
 #setters y getters

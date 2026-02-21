@@ -47,6 +47,7 @@ sub cargaMasiva {
         
         eval {
             my $nuevo_med = Medicamento->new(@datos);
+            
             $lista_inventario->insertar($nuevo_med);
         };
         if ($@) {

@@ -25,6 +25,9 @@ use constant RegistraMedicamento => 'Controlador::RegistraMedicamento';
 use Controlador::RegistrarProveedor;
 use constant RegistrarProveedor => 'Controlador::RegistrarProveedor';
 
+use Controlador::RegistrarEntrega;
+use constant RegistrarEntrega => 'Controlador::RegistrarEntrega';
+
 sub main {
 
     my $lista_inventario = ListaDoblemente -> new();
@@ -123,13 +126,18 @@ sub menu_administrador {
             my $ruta_archivo = <STDIN>;
             chomp $ruta_archivo;
             RegistraMedicamento->cargaMasiva($lista_inventario, $ruta_archivo);
-        } elsif($opcion == 3){
-            print "\n-------------- Gestionar Proveedores --------------\n";
-            RegistrarProveedor->registrarProveedor($lista_proveedores);
 
             #Ruta de prueba para cargar masiva: /Volumes/Información y Archivos/Separadores cartapacios/prueba_f1.csv
 
+        } elsif($opcion == 3){
+            print "\n-------------- Gestionar Proveedores --------------\n";
+            RegistrarProveedor->registrarProveedor($lista_proveedores);
+        } elsif($opcion == 4){
+            print "\n-------------- Registrar Entregas --------------\n";
+            RegistrarEntrega->registrarEntrega($lista_proveedores);
+        
         } elsif($opcion == 6){
+            
             print "\n-------------- Visualizar Inventario --------------\n";
             $lista_inventario->imprimir();
 

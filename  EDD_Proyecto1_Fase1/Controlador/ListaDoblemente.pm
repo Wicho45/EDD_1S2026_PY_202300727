@@ -30,7 +30,7 @@ sub insertar {
     if ($self->is_empty()) {
         my $nuevo_nodo = Nodo->new($nuevo_med);
         $self->{cabeza} = $nuevo_nodo;
-        $self->{cola} = $nuevo_nodo;
+        $self->{cola}   = $nuevo_nodo;
         return "Primer medicamento registrado: $nuevo_cod";
     }
 
@@ -43,13 +43,18 @@ sub insertar {
                 return "Omitido: El medicamento con código $nuevo_cod ya existe con los mismos datos.";
             } 
             else {
-                return "COLISION: El código $nuevo_cod ya existe con otros datos.";
+                my ($numero) = $self->{cola}->get_data()->get_codigo_medicamento() =~ /(\d+)/;
+                
+                my $nuevo_codigo_generado = sprintf("MED%03d", $numero + 1);
+                $nuevo_med->set_codigo_medicamento($nuevo_codigo_generado);
+                return $self->insertar($nuevo_med);
             }
         }
         $actual = $actual->get_next();
     }
 
     $actual = $self->{cabeza};
+    $nuevo_cod = $nuevo_med->get_codigo_medicamento();
 
     if ($nuevo_cod lt $actual->get_data()->get_codigo_medicamento()) {
         my $nuevo_nodo = Nodo->new($nuevo_med);
@@ -59,7 +64,7 @@ sub insertar {
         return "Insertado al inicio: $nuevo_cod";
     }
 
-    while (defined($actual->get_next()) && 
+    while (defined($actual->get_next()) &&
         $actual->get_next()->get_data()->get_codigo_medicamento() lt $nuevo_cod) {
         $actual = $actual->get_next();
     }
@@ -67,7 +72,8 @@ sub insertar {
     if (!defined($actual->get_next())) {
         $self->agregar_final($nuevo_med);
         return "Agregado al final: $nuevo_cod";
-    } else {
+    } 
+    else {
         my $nuevo_nodo = Nodo->new($nuevo_med);
         my $siguiente = $actual->get_next();
 
