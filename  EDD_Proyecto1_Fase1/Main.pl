@@ -22,9 +22,13 @@ use constant Proveedor => 'Modelo::Proveedor';
 use Controlador::RegistraMedicamento;
 use constant RegistraMedicamento => 'Controlador::RegistraMedicamento';
 
+use Controlador::RegistrarProveedor;
+use constant RegistrarProveedor => 'Controlador::RegistrarProveedor';
+
 sub main {
 
     my $lista_inventario = ListaDoblemente -> new();
+    my $lista_proveedores = ListaCircular -> new();
 
     while (1){
         print "\n------------- Inicio de sesión -------------\n";
@@ -36,14 +40,14 @@ sub main {
         my $opcion_inicio = <STDIN>;
         chomp $opcion_inicio;
 
-        my $terminar = inicio_sesion($opcion_inicio, $lista_inventario);
+        my $terminar = inicio_sesion($opcion_inicio, $lista_inventario, $lista_proveedores);
         last if $terminar;
     }   
 }
 
 sub inicio_sesion {
     
-    my ($opcion, $lista_inventario) = @_;
+    my ($opcion, $lista_inventario, $lista_proveedores) = @_;
 
     if ($opcion == 1){
         print "\n Ingrese usuario: \n";
@@ -55,7 +59,7 @@ sub inicio_sesion {
         chomp $contrasena_admin;
         
         if ($usuario_admin eq "admin" and $contrasena_admin eq "admin" ){
-            menu_administrador($lista_inventario);
+            menu_administrador($lista_inventario, $lista_proveedores);
         }else{
             print "\n Usuario o contraseña incorrectos. Intente nuevamente.\n";
             return 0;
@@ -91,7 +95,7 @@ sub inicio_sesion {
 
 
 sub menu_administrador {
-    my ($lista_inventario) = @_;
+    my ($lista_inventario, $lista_proveedores) = @_;
     my $continuar_menu = 1;
 
     while ($continuar_menu) {
@@ -119,6 +123,9 @@ sub menu_administrador {
             my $ruta_archivo = <STDIN>;
             chomp $ruta_archivo;
             RegistraMedicamento->cargaMasiva($lista_inventario, $ruta_archivo);
+        } elsif($opcion == 3){
+            print "\n-------------- Gestionar Proveedores --------------\n";
+            RegistrarProveedor->registrarProveedor($lista_proveedores);
 
             #Ruta de prueba para cargar masiva: /Volumes/Información y Archivos/Separadores cartapacios/prueba_f1.csv
 
