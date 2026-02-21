@@ -134,7 +134,7 @@ sub menu_administrador {
             RegistrarProveedor->registrarProveedor($lista_proveedores);
         } elsif($opcion == 4){
             print "\n-------------- Registrar Entregas --------------\n";
-            RegistrarEntrega->registrarEntrega($lista_proveedores);
+            RegistrarEntrega->registrarEntrega($lista_proveedores, $lista_inventario);
         
         } elsif($opcion == 6){
             
