@@ -123,7 +123,7 @@ sub eliminar {
     }
 }
 
-sub agregar_final{
+sub agregar_final {
     my ($self , $data) = @_;
 
     my $nuevo_nodo = Nodo -> new($data);
@@ -172,12 +172,12 @@ sub imprimir {
 
 }
 
-sub buscar{
+sub buscar {
     my ($self, $data) =@_;
 
     my $actual = $self -> {cabeza};
 
-    while(defines($actual)){
+    while(defined($actual)){
         if($actual -> get_data() eq $data){
             return 1;
         }
@@ -188,7 +188,7 @@ sub buscar{
 
 }
 
-sub tamanio{
+sub tamanio {
     my ($self) = @_;
 
     my $contador = 0;

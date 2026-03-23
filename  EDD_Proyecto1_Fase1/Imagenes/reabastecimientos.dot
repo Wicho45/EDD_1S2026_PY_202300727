@@ -1,0 +1,13 @@
+digraph G {
+  rankdir=LR;
+  node [shape=record, style=filled, fillcolor=azure];
+  label="LISTA CIRCULAR DOBLEMENTE ENLAZADA - REABASTECIMIENTOS";
+  labelloc="t";
+
+  nodo0 [label="{ <prev> | Dep: Medico | Enfermeros | Personal departamento\nMed: MED001\nCant: 200\nPrioridad: urgente | <next> }"];
+  nodo1 [label="{ <prev> | Dep: Medico | Enfermeros | Personal departamento\nMed: MED002\nCant: 300\nPrioridad: media | <next> }"];
+  nodo0:next -> nodo1:prev [color=blue];
+  nodo1:prev -> nodo0:next [color=red];
+  nodo1:next -> nodo0:prev [color=blue];
+  nodo0:prev -> nodo1:next [color=red];
+}

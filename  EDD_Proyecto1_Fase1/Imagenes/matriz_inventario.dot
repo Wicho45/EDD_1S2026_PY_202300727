@@ -1,0 +1,125 @@
+digraph G {
+    nodesep=0.5;
+    ranksep=0.5;
+    node [shape=box, style=filled, fontname="Arial Bold", fontsize=10];
+    edge [dir=both, arrowsize=0.7];
+    label="MATRIZ DISPERSA DE INVENTARIO\n(Medicamento vs Laboratorio)";
+    labelloc="t";
+
+    raiz [label="Medicamento\n/ Laboratorio", fillcolor=lightgray, group=0];
+
+    col0 [label="Batres", fillcolor=lightblue, group=1];
+    col1 [label="LAB_CaliF1", fillcolor=lightblue, group=2];
+    col2 [label="LAB_BioGen", fillcolor=lightblue, group=3];
+    col3 [label="LAB_VidaCare", fillcolor=lightblue, group=4];
+    col4 [label="LAB_Diabetix", fillcolor=lightblue, group=5];
+    col5 [label="LAB_Bueno", fillcolor=lightblue, group=6];
+    col6 [label="LAB_EDDa", fillcolor=lightblue, group=7];
+    col7 [label="LAB_AntiMuerte", fillcolor=lightblue, group=8];
+    col8 [label="LAB_CardioLife", fillcolor=lightblue, group=9];
+    col9 [label="LAB_vidaYmuerte", fillcolor=lightblue, group=10];
+    col10 [label="LAB_RespiraPlus", fillcolor=lightblue, group=11];
+    { rank=same; raiz; col0; col1; col2; col3; col4; col5; col6; col7; col8; col9; col10; }
+
+    fila0 [label="Calificacion", fillcolor=lightpink, group=0];
+    n_0_0 [label="Stock: 7000\nPrecio: $125", fillcolor=white, group=1];
+    { rank=same; fila0; n_0_0; }
+    fila1 [label="Dolorix", fillcolor=lightpink, group=0];
+    n_1_1 [label="Stock: 250\nPrecio: $3.10", fillcolor=white, group=2];
+    { rank=same; fila1; n_1_1; }
+    fila2 [label="Pastillas", fillcolor=lightpink, group=0];
+    n_2_2 [label="Stock: 180\nPrecio: $14.25", fillcolor=white, group=3];
+    { rank=same; fila2; n_2_2; }
+    fila3 [label="SanaNada", fillcolor=lightpink, group=0];
+    n_3_1 [label="Stock: 320\nPrecio: $5.40", fillcolor=white, group=2];
+    { rank=same; fila3; n_3_1; }
+    fila4 [label="tapcin", fillcolor=lightpink, group=0];
+    n_4_3 [label="Stock: 75\nPrecio: $6.80", fillcolor=white, group=4];
+    n_4_4 [label="Stock: 110\nPrecio: $142.50", fillcolor=white, group=5];
+    n_4_8 [label="Stock: 310\nPrecio: $5.25", fillcolor=white, group=9];
+    { rank=same; fila4; n_4_3; n_4_4; n_4_8; }
+    fila5 [label="Glucorin", fillcolor=lightpink, group=0];
+    n_5_4 [label="Stock: 86\nPrecio: $4.75", fillcolor=white, group=5];
+    { rank=same; fila5; n_5_4; }
+    fila6 [label="Jarabe", fillcolor=lightpink, group=0];
+    n_6_5 [label="Stock: 150\nPrecio: $7.20", fillcolor=white, group=6];
+    { rank=same; fila6; n_6_5; }
+    fila7 [label="Presionix", fillcolor=lightpink, group=0];
+    n_7_6 [label="Stock: 275\nPrecio: $9.60", fillcolor=white, group=7];
+    { rank=same; fila7; n_7_6; }
+    fila8 [label="Colestop", fillcolor=lightpink, group=0];
+    n_8_6 [label="Stock: 190\nPrecio: $17.30", fillcolor=white, group=7];
+    { rank=same; fila8; n_8_6; }
+    fila9 [label="SanaTodo", fillcolor=lightpink, group=0];
+    n_9_1 [label="Stock: 360\nPrecio: $4.95", fillcolor=white, group=2];
+    { rank=same; fila9; n_9_1; }
+    fila10 [label="Ciprolab", fillcolor=lightpink, group=0];
+    n_10_7 [label="Stock: 130\nPrecio: $20.40", fillcolor=white, group=8];
+    { rank=same; fila10; n_10_7; }
+    fila11 [label="Aspirinas", fillcolor=lightpink, group=0];
+    n_11_5 [label="Stock: 145\nPrecio: $23.75", fillcolor=white, group=6];
+    { rank=same; fila11; n_11_5; }
+    fila12 [label="Insunph", fillcolor=lightpink, group=0];
+    n_12_9 [label="Stock: 120\nPrecio: $130.00", fillcolor=white, group=10];
+    { rank=same; fila12; n_12_9; }
+    fila13 [label="Respiflow", fillcolor=lightpink, group=0];
+    n_13_10 [label="Stock: 290\nPrecio: $48.90", fillcolor=white, group=11];
+    { rank=same; fila13; n_13_10; }
+    fila0 -> n_0_0 [color=green4];
+    fila1 -> n_1_1 [color=green4];
+    fila2 -> n_2_2 [color=green4];
+    fila3 -> n_3_1 [color=green4];
+    fila4 -> n_4_3 [color=green4];
+    n_4_3 -> n_4_4 [color=green4];
+    n_4_4 -> n_4_8 [color=green4];
+    fila5 -> n_5_4 [color=green4];
+    fila6 -> n_6_5 [color=green4];
+    fila7 -> n_7_6 [color=green4];
+    fila8 -> n_8_6 [color=green4];
+    fila9 -> n_9_1 [color=green4];
+    fila10 -> n_10_7 [color=green4];
+    fila11 -> n_11_5 [color=green4];
+    fila12 -> n_12_9 [color=green4];
+    fila13 -> n_13_10 [color=green4];
+    col0 -> n_0_0 [color=blue4];
+    col1 -> n_1_1 [color=blue4];
+    n_1_1 -> n_3_1 [color=blue4];
+    n_3_1 -> n_9_1 [color=blue4];
+    col2 -> n_2_2 [color=blue4];
+    col3 -> n_4_3 [color=blue4];
+    col4 -> n_4_4 [color=blue4];
+    n_4_4 -> n_5_4 [color=blue4];
+    col5 -> n_6_5 [color=blue4];
+    n_6_5 -> n_11_5 [color=blue4];
+    col6 -> n_7_6 [color=blue4];
+    n_7_6 -> n_8_6 [color=blue4];
+    col7 -> n_10_7 [color=blue4];
+    col8 -> n_4_8 [color=blue4];
+    col9 -> n_12_9 [color=blue4];
+    col10 -> n_13_10 [color=blue4];
+    raiz -> col0 [style=invis];
+    raiz -> fila0 [style=invis];
+    col0 -> col1 [style=invis];
+    col1 -> col2 [style=invis];
+    col2 -> col3 [style=invis];
+    col3 -> col4 [style=invis];
+    col4 -> col5 [style=invis];
+    col5 -> col6 [style=invis];
+    col6 -> col7 [style=invis];
+    col7 -> col8 [style=invis];
+    col8 -> col9 [style=invis];
+    col9 -> col10 [style=invis];
+    fila0 -> fila1 [style=invis];
+    fila1 -> fila2 [style=invis];
+    fila2 -> fila3 [style=invis];
+    fila3 -> fila4 [style=invis];
+    fila4 -> fila5 [style=invis];
+    fila5 -> fila6 [style=invis];
+    fila6 -> fila7 [style=invis];
+    fila7 -> fila8 [style=invis];
+    fila8 -> fila9 [style=invis];
+    fila9 -> fila10 [style=invis];
+    fila10 -> fila11 [style=invis];
+    fila11 -> fila12 [style=invis];
+    fila12 -> fila13 [style=invis];
+}

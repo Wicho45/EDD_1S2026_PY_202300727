@@ -6,6 +6,12 @@ use warnings;
 use Modelo::Entrega;
 use constant Entrega => 'Modelo::Entrega';
 
+use Reportes::ReporteListaDoblemente;
+use constant ReporteListaDoblemente => 'Reportes::ReporteListaDoblemente';
+
+use Reportes::ReporteCircular;
+use constant ReporteCircular => 'Reportes::ReporteCircular';
+
 sub registrarEntrega {
     my ($class, $lista_proveedores, $lista_inventario) = @_;
 
@@ -75,6 +81,8 @@ sub registrarEntrega {
                             $actual_inventario->get_data()->set_stock(
                                 $stock_actual + $cantidad_entregada
                             );
+                            
+                            ReporteListaDoblemente->generar_reporte($lista_inventario);
 
                             $medicamento_encontrado = 1;
                             last;
@@ -90,6 +98,8 @@ sub registrarEntrega {
 
 
                     $actual->get_data()->{historial}->insertar($nuevo);
+                    ReporteCircular->generar_reporte($lista_proveedores);
+                    ReporteListaDoblemente->generar_reporte($lista_inventario);  
                     
                     print "\nEntrega registrada exitosamente.\n";
                     $proveedor_encontrado = 1;

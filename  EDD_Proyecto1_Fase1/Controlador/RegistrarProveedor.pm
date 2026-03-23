@@ -6,6 +6,9 @@ use warnings;
 use Modelo::Proveedor;
 use constant Proveedor => 'Modelo::Proveedor';
 
+use Reportes::ReporteCircular;
+use constant ReporteCircular => 'Reportes::ReporteCircular';
+
 sub registrarProveedor {
 
     my ($class, $lista_proveedores) = @_;
@@ -36,6 +39,7 @@ sub registrarProveedor {
         my $nuevo = Proveedor->new($nit, $nombre_empresa, $contacto_principal, $telefono, $direccion);
 
         $lista_proveedores->insertar($nuevo);
+        ReporteCircular->generar_reporte($lista_proveedores);
         print "\nProveedor registrada exitosamente.\n";
 
         print "\n¿Desea registrar otro? (s/n): ";

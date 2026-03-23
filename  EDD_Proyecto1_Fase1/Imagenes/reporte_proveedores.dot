@@ -1,0 +1,17 @@
+digraph G {
+  rankdir=TB;
+  nodesep=0.8;
+  ranksep=0.5;
+  node [shape=record, style=filled];
+  label="REPORTE DE PROVEEDORES Y DETALLE DE ENTREGAS";
+  labelloc="t";
+
+  prov0 [label="{ PROVEEDOR\nNIT: 1234\nEmpresa: Proveedor1 | <h> HISTORIAL }", fillcolor=orange];
+  prov1 [label="{ PROVEEDOR\nNIT: 456\nEmpresa: Proveedor2 | <h> HISTORIAL }", fillcolor=orange];
+  prov1:h -> e_1_0 [style=dashed];
+  e_1_0 [label="Factura: 678\nFecha: 2026-02-28\nMed: MED002\nCant: 600", fillcolor=white];
+  e_1_0 -> e_1_1;
+  e_1_1 [label="Factura: 123\nFecha: 2026-02-27\nMed: MED001\nCant: 500", fillcolor=white];
+  { rank=same; prov0 -> prov1; }
+  prov1 -> prov0 [label="inicio", color=darkgreen, constraint=false];
+}

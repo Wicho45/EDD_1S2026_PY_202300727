@@ -7,7 +7,7 @@ use warnings;
 use Modelo::Nodo;
 use constant Nodo => 'Modelo::Nodo';
 
-sub new{
+sub new {
     my ($class) = @_;
 
     my $self = {
@@ -18,12 +18,12 @@ sub new{
     return $self;
 }
 
-sub isEmpty{
+sub isEmpty {
     my ($self) = @_;
     return !defined ($self->{head})? 1 : 0;
 }
 
-sub insertar{
+sub insertar {
     my ($self, $data) = @_;
 
     my $nuevo_nodo = Nodo->new($data);
@@ -33,7 +33,24 @@ sub insertar{
     $self->{head} = $nuevo_nodo;
 }
 
-sub delete{
+sub agregar_final {
+    my ($self, $data) = @_;
+    my $nuevo_nodo = Nodo->new($data);
+
+    if ($self->isEmpty()) {
+        $self->{head} = $nuevo_nodo;
+        return;
+    }
+
+    my $actual = $self->{head};
+    while (defined($actual->get_next())) {
+        $actual = $actual->get_next();
+    }
+    
+    $actual->set_next($nuevo_nodo);
+}
+
+sub delete {
     my ($self, $data) = @_;
     
     if ($self->isEmpty()){

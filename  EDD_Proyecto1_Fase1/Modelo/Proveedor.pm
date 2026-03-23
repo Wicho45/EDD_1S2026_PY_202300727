@@ -60,8 +60,9 @@ sub set_direccion{
     $self->{direccion} = $direccion;
 }
 
-sub get_historial{
-    return $_[0]->{historial -> imprimir()};
+sub get_historial {
+    my ($self) = @_;
+    return $self->{historial};
 }
 
 1;
