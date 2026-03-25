@@ -3,14 +3,24 @@ package Vista::login;
 use strict;
 use warnings;
 use Gtk3;
+use utf8;
+binmode(STDOUT, ":encoding(UTF-8)");
+
+use Vista::signin;
+use constant signin => 'Vista::signin';
 
 sub mostrar_login {
-
+    my ($class) = @_;
+    my $autenticado = 0;
     my $dialog = Gtk3::Dialog->new(
-        'Acceso al Sistema', undef, 'modal',
-        'Entrar'   => 'accept',
-        'Cancelar' => 'cancel'
+        'Login - EDD Medtrack', 
+        undef, 
+        ['modal'],
+        'Iniciar sesion'   => 'accept',
+        'Cerrar' => 'cancel',
+        'Registrar usuario' => 100
     );
+    
     $dialog->set_position('center');
     $dialog->set_default_size(300, -1);
 
@@ -18,11 +28,25 @@ sub mostrar_login {
     $content->set_spacing(10);
     $content->set_border_width(15);
 
+    ## Logo de usac
+    my $ruta_logo = "imagenes/logo.png"; 
+    if (-e $ruta_logo) {
+        my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file_at_scale($ruta_logo, 120, 120, 1);
+        my $logo = Gtk3::Image->new_from_pixbuf($pixbuf);
+        $content->pack_start($logo, 0, 0, 10);
+    } else {
+        my $lbl_placeholder = Gtk3::Label->new("LOGOTIPO");
+        $content->pack_start($lbl_placeholder, 0, 0, 10);
+    }
+
+    ## ingreso de usuario
     my $label_usuario = Gtk3::Label->new("Usuario:");
     $label_usuario->set_xalign(0);
     my $entry_usuario = Gtk3::Entry->new();
 
-    my $label_contrasena = Gtk3::Label->new("Contrasena:");
+
+    ## ingreso de contrasena
+    my $label_contrasena = Gtk3::Label->new("Contraseña:");
     $label_contrasena->set_xalign(0);
     my $entry_contrasena = Gtk3::Entry->new();
     $entry_contrasena->set_visibility(0); 
@@ -34,7 +58,40 @@ sub mostrar_login {
     $content->pack_start($entry_contrasena, 0, 0, 5);
     
     $dialog->show_all();
-    $dialog->run();
+    ## bucle para inicio de sesion o registro
+    while (1) {
+        my $response = $dialog->run();
+
+        if ($response eq 'accept') {
+            my $u_input = $entry_usuario->get_text();
+            my $p_input = $entry_contrasena->get_text();
+
+            if (length($u_input) == 0 || length($p_input) == 0) {
+                mostrar_mensaje($dialog, 'error', "Error", "Debe llenar todos los campos.");
+                next;
+            }
+
+        } 
+        elsif ($response eq '100') {
+            $dialog->hide();
+            Vista::signin->mostrar_signin();
+            $dialog->show();
+        }
+        else {
+            last; 
+        }
+    }
+    
     $dialog->destroy();
+    return $autenticado;
 }
+
+sub mostrar_mensaje {
+    my ($parent, $tipo, $titulo, $texto) = @_;
+    my $m = Gtk3::MessageDialog->new($parent, 'modal', $tipo, 'ok', $texto);
+    $m->set_title($titulo);
+    $m->run();
+    $m->destroy();
+}
+
 1;
