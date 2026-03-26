@@ -10,7 +10,7 @@ use Vista::signin;
 use constant signin => 'Vista::signin';
 
 sub mostrar_login {
-    my ($class) = @_;
+    my ($class, $arbol_usuarios) = @_;
     my $autenticado = 0;
     my $dialog = Gtk3::Dialog->new(
         'Login - EDD Medtrack', 
@@ -74,7 +74,7 @@ sub mostrar_login {
         } 
         elsif ($response eq '100') {
             $dialog->hide();
-            Vista::signin->mostrar_signin();
+            Vista::signin->mostrar_signin($arbol_usuarios);
             $dialog->show();
         }
         else {

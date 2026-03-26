@@ -10,13 +10,13 @@ use Modelo::Usuario;
 use constant Usuario => 'Modelo::Usuario';
 
 sub mostrar_signin {
-    my ($class) = @_;
+    my ($class, $arbol_usuarios) = @_;
     my $dialog = Gtk3::Dialog->new(
         'Signin - EDD Medtrack', 
         undef, 
         ['modal'],
         'Registrar'   => 'accept',
-        'Cancelar' => 'cancel',
+        'Regresar' => 'cancel',
     );
 
     $dialog->set_position('center');
@@ -77,6 +77,8 @@ sub mostrar_signin {
 
     $content->pack_start($label_user, 0, 0, 0);
     $content->pack_start($entry_user, 0, 0, 5);
+    $content->pack_start($label_num_colegio, 0, 0, 0);
+    $content->pack_start($entry_num_colegio, 0, 0, 5);
     $content->pack_start($label_tipo, 0, 0, 0);
     $content->pack_start($combo, 0, 0, 5);
     $content->pack_start($label_pass1, 0, 0, 0);
@@ -85,7 +87,52 @@ sub mostrar_signin {
     $content->pack_start($entry_pass2, 0, 0, 5);
 
     $dialog->show_all();
-    $dialog->run();
+
+    ## bucle para registro de usuarios
+    while (1) {
+        my $response = $dialog->run();
+
+        if ($response eq 'accept') {
+            my $username = $entry_user->get_text();
+            my $tipo = $combo->get_active_text();
+            my $num_colegio = $entry_num_colegio->get_text();
+            my $password1 = $entry_pass1->get_text();
+            my $password2 = $entry_pass2->get_text();
+
+            if (length($username) == 0 || length($password1) == 0 || length($password2) == 0 || $tipo eq "Tipo") {
+                mostrar_mensaje($dialog, 'error', "Error", "Debe llenar todos los campos.");
+                next;
+            }
+
+            if ($password1 ne $password2) {
+                mostrar_mensaje($dialog, 'error', "Error", "Las contraseñas no coinciden.");
+                next;
+            }
+
+            if (length($password1) < 6) {
+                mostrar_mensaje($dialog, 'error', "Error", "La contraseña debe tener al menos 6 caracteres.");
+                next;
+            }
+
+            my $nuevo_usuario = Usuario->new($username, $tipo, $num_colegio, $password1);
+            $arbol_usuarios->insertar($nuevo_usuario);
+            print "Usuario registrado: " . $nuevo_usuario->get_username() . ", Tipo: " . $nuevo_usuario->get_tipo() . ", Colegio: " . $nuevo_usuario->get_numero_colegio() . "\n";
+            mostrar_mensaje($dialog, 'info', "Éxito", "Usuario registrado exitosamente.");
+        }else{
+            last;
+        }
+    }
+
+    $dialog->destroy();
+
+}
+
+sub mostrar_mensaje {
+    my ($parent, $tipo, $titulo, $texto) = @_;
+    my $m = Gtk3::MessageDialog->new($parent, 'modal', $tipo, 'ok', $texto);
+    $m->set_title($titulo);
+    $m->run();
+    $m->destroy();
 }
 
 1;
