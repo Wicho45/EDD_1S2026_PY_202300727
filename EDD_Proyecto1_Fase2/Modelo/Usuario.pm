@@ -3,14 +3,16 @@ package Modelo::Usuario;
 use strict;
 use warnings;
 
-
+##Constructor y getters/setters para la clase Usuario
 sub new{
-    my ($class, $username, $tipo, $numero_colegio, $password) = @_;
+    my ($class, $username, $tipo, $numero_colegio, $password, $departamento, $especialidad) = @_;
     my $self = {
         username => $username,
         tipo => $tipo,
         numero_colegio => $numero_colegio,
-        password => $password
+        password => $password,
+        departamento => $departamento,
+        especialidad => $especialidad,
     };
     return bless $self, $class;
 }
@@ -49,6 +51,24 @@ sub get_password {
 sub set_password {
     my ($self, $password) = @_;
     $self->{password} = $password;
+}
+
+sub get_departamento {
+    my ($self) = @_;
+    return $self->{departamento};
+}
+sub set_departamento {
+    my ($self, $departamento) = @_;
+    $self->{departamento} = $departamento;
+}
+
+sub get_especialidad {
+    my ($self) = @_;
+    return $self->{especialidad};
+}
+sub set_especialidad {
+    my ($self, $especialidad) = @_;
+    $self->{especialidad} = $especialidad;
 }
 
 1;

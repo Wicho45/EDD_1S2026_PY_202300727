@@ -10,6 +10,7 @@ sub new {
         data  => $data, 
         left  => undef, 
         right => undef,
+        altura => 0
     };
 
     bless $self, $class;
@@ -42,6 +43,14 @@ sub get_right {
 sub set_right {
     my ($self, $nodo_der) = @_;
     $self->{right} = $nodo_der;
+}
+
+sub get_altura {
+    return $_[0]->{altura};
+}
+sub set_altura {
+    my ($self, $nueva_altura) = @_;
+    $self->{altura} = $nueva_altura;
 }
 
 sub es_hoja {

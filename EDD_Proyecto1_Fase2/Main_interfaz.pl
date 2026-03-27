@@ -8,10 +8,12 @@ use Gtk3 -init;
 
 use Controlador::bst;
 use constant bst => 'Controlador::bst';
+use Controlador::avl;
+use constant avl => 'Controlador::avl';
 
 sub main {
     my $continuar = 1;
-    my $arbol_usuarios = bst->new(); #arbol para almacenar usuarios
+    my $arbol_usuarios = avl->new(); #arbol para almacenar usuarios
 
     ## bucle principal para inicio de sesion
     while ($continuar) {

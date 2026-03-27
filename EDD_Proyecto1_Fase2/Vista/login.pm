@@ -8,6 +8,10 @@ binmode(STDOUT, ":encoding(UTF-8)");
 
 use Vista::signin;
 use constant signin => 'Vista::signin';
+use Vista::admin;
+use constant admin => 'Vista::admin';
+use Vista::user;
+use constant user => 'Vista::user';
 
 sub mostrar_login {
     my ($class, $arbol_usuarios) = @_;
@@ -18,7 +22,8 @@ sub mostrar_login {
         ['modal'],
         'Iniciar sesion'   => 'accept',
         'Cerrar' => 'cancel',
-        'Registrar usuario' => 100
+        'Registrar usuario' => 100,
+        'Datos' => 200
     );
     
     $dialog->set_position('center');
@@ -62,20 +67,56 @@ sub mostrar_login {
     while (1) {
         my $response = $dialog->run();
 
-        if ($response eq 'accept') {
-            my $u_input = $entry_usuario->get_text();
-            my $p_input = $entry_contrasena->get_text();
+        if ($response eq 'accept') { ## Validar inicio de sesion
+            my $user_actual = $entry_usuario->get_text();
+            my $pass_actual = $entry_contrasena->get_text();
 
-            if (length($u_input) == 0 || length($p_input) == 0) {
+            if (length($user_actual) == 0 || length($pass_actual) == 0) {
                 mostrar_mensaje($dialog, 'error', "Error", "Debe llenar todos los campos.");
                 next;
             }
 
+            ## admin quemado 
+            if ($user_actual eq "admin" && $pass_actual eq "admin" ){
+                $dialog->hide();
+                mostrar_mensaje($dialog, 'info', "Bienvenido ", "¡Login exitoso! Bienvenido admin" );
+                admin->mostrar_admin();
+                $dialog->show();
+                next;
+            }
+
+            my $usuario_encontrado = $arbol_usuarios->buscar($user_actual, undef);
+            if (!defined($usuario_encontrado)) {
+                mostrar_mensaje($dialog, 'error', "Error", "Usuario no encontrado.");
+                next;
+            }
+            elsif ($usuario_encontrado->get_data()->get_password() ne $pass_actual) {
+                mostrar_mensaje($dialog, 'error', "Error", "Contraseña incorrecta.");
+                next;
+            }else{
+                ## Validar tipo de usuario
+                if($usuario_encontrado->get_data()->get_tipo() == 5 ){ 
+                    $dialog->hide();
+                    mostrar_mensaje($dialog, 'info', "Bienvenido ", "¡Login exitoso! Bienvenido, " . $usuario_encontrado->get_data()->get_username() . ".");
+                    admin->mostrar_admin();
+                    $dialog->show();
+                }else{
+                    $dialog->hide();
+                    mostrar_mensaje($dialog, 'info', "Bienvenido ", "¡Login exitoso! Bienvenido, " . $usuario_encontrado->get_data()->get_username() . ".");
+                    user->mostrar_user();
+                    $dialog->show();
+                }
+                next;
+            }
+
         } 
-        elsif ($response eq '100') {
+        elsif ($response eq '100') { ## Mostrar registro de usuarios
             $dialog->hide();
-            Vista::signin->mostrar_signin($arbol_usuarios);
+            signin->mostrar_signin($arbol_usuarios);
             $dialog->show();
+        }
+        elsif ($response eq '200'){ ## Mostrar datos del estudiante
+            mostrar_mensaje($dialog, 'info', "Datos del estudiantes", "Nombre: Luis Cornelio Marroquín López\nCarné: 202300727\nCurso: Estructuras de datos\nSección: A");
         }
         else {
             last; 
@@ -89,6 +130,7 @@ sub mostrar_login {
 sub mostrar_mensaje {
     my ($parent, $tipo, $titulo, $texto) = @_;
     my $m = Gtk3::MessageDialog->new($parent, 'modal', $tipo, 'ok', $texto);
+    $m->set_position('center');
     $m->set_title($titulo);
     $m->run();
     $m->destroy();
