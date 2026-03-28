@@ -7,7 +7,9 @@ sub new {
     my ($class, $data) = @_;
 
     my $self = {
-        data  => $data, 
+        data  => $data,
+        next  => undef,
+        prev  => undef,
         left  => undef, 
         right => undef,
         altura => 0
@@ -21,7 +23,6 @@ sub new {
 sub get_data {
     return $_[0]->{data};
 }
-
 sub set_data {
     my ($self, $new_data) = @_;
     $self->{data} = $new_data;
@@ -30,7 +31,6 @@ sub set_data {
 sub get_left {
     return $_[0]->{left};
 }
-
 sub set_left {
     my ($self, $nodo_izq) = @_;
     $self->{left} = $nodo_izq;
@@ -39,7 +39,6 @@ sub set_left {
 sub get_right {
     return $_[0]->{right};
 }
-
 sub set_right {
     my ($self, $nodo_der) = @_;
     $self->{right} = $nodo_der;
@@ -51,6 +50,22 @@ sub get_altura {
 sub set_altura {
     my ($self, $nueva_altura) = @_;
     $self->{altura} = $nueva_altura;
+}
+
+sub get_next {
+    return $_[0]->{next};
+}
+sub set_next {
+    my ($self, $next_node) = @_;
+    $self->{next} = $next_node;
+}
+
+sub get_prev {
+    return $_[0]->{prev};
+}
+sub set_prev {
+    my ($self, $prev_node) = @_;
+    $self->{prev} = $prev_node;
 }
 
 sub es_hoja {

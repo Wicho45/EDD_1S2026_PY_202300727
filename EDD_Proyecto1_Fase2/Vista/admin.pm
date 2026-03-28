@@ -6,7 +6,7 @@ use Gtk3;
 use utf8;
 
 sub mostrar_admin {
-    my ($class, $arbol_usuarios, $usuario_actual) = @_;
+    my ($class, $arbol_usuarios, $usuario_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo) = @_;
 
     my $window = Gtk3::Window->new('toplevel');
     $window->set_title("Panel de Administración - Medtrack");
@@ -60,13 +60,38 @@ sub mostrar_admin {
     $scroll->add($treeview);
     $vbox->pack_start($scroll, 1, 1, 0);
 
-    # Botón cerrar sesión
-    my $btn_cerrar = Gtk3::Button->new_with_label("Cerrar Sesión");
-    $vbox->pack_start($btn_cerrar, 0, 0, 5);
+    # --- Contenedor para botones inferiores ---
+    my $hbox_botones = Gtk3::Box->new('horizontal', 10);
+    $hbox_botones->set_halign('center'); 
+    $vbox->pack_start($hbox_botones, 0, 0, 5);
 
+    ## boton para carga masiva
+    my $btn_nuevo = Gtk3::Button->new_with_label("Carga Masiva");
+    $btn_nuevo->signal_connect(clicked => sub {
+        print "Hiciste clic en el nuevo botón\n";
+    });
+    $hbox_botones->pack_start($btn_nuevo, 0, 0, 5);
+
+    ##boton para reportes
+    my $btn_reporte = Gtk3::Button->new_with_label("Reportes");
+    $btn_reporte->signal_connect(clicked => sub {
+        print "Hiciste clic en el botón de reportes\n";
+    });
+    $hbox_botones->pack_start($btn_reporte, 0, 0, 5);
+
+    ##boton para recorridos
+    my $btn_recorrido = Gtk3::Button->new_with_label("Recorridos");
+    $btn_recorrido->signal_connect(clicked => sub {
+        print "Hiciste clic en el botón de recorridos\n";
+    });
+    $hbox_botones->pack_start($btn_recorrido, 0, 0, 5);
+
+    # boton para cerrar sesion
+    my $btn_cerrar = Gtk3::Button->new_with_label("Cerrar Sesión");
     $btn_cerrar->signal_connect(clicked => sub {
         $window->destroy();
     });
+    $hbox_botones->pack_start($btn_cerrar, 0, 0, 5);
     
     $window->signal_connect(destroy => sub {
     });

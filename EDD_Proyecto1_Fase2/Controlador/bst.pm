@@ -5,8 +5,6 @@ use warnings;
 
 use Modelo::Nodo;
 use constant Nodo => 'Modelo::Nodo';
-use Modelo::Usuario;
-use constant Usuario => 'Modelo::Usuario';
 
 sub new {
     my ($class) = @_;
@@ -81,40 +79,36 @@ sub _insertar_recursivo {
 }
 
 sub buscar {
-    my ($self, $username, $num_colegio) = @_;
+    my ($self, $data) = @_;
 
     if ($self->is_empty()) {
         print "El arbol está vacio. No hay nada que buscar.\n";
         return undef;
     }
-
-    return $self->_buscar_recursivo($self->{root}, $username, $num_colegio);
+    return $self->_buscar_recursivo($self->{root}, $data);
 }
 
-
-
 sub _buscar_recursivo {
-    my ($self, $nodo_actual, $username, $num_colegio) = @_;
+    my ($self, $nodo_actual, $data) = @_;
 
     if (!defined($nodo_actual)) {
         return undef;
     }
 
-    my $username_actual = $nodo_actual->get_data()->get_username();
-    my $num_colegio_actual = $nodo_actual->get_data()->get_numero_colegio();
+    my $valor_actual = $nodo_actual->get_data();
 
-    if ($username eq $username_actual || $num_colegio eq $num_colegio_actual) {
+    if ($data == $valor_actual) {
         return $nodo_actual;
     }
-
-    elsif ($username < $username_actual || $num_colegio < $num_colegio_actual) {
-        return $self->_buscar_recursivo($nodo_actual->get_left(), $username, $num_colegio);
+    elsif ($data < $valor_actual) {
+        return $self->_buscar_recursivo($nodo_actual->get_left(), $data);
     }
 
     else {
-        return $self->_buscar_recursivo($nodo_actual->get_right(), $username, $num_colegio);
+        return $self->_buscar_recursivo($nodo_actual->get_right(), $data);
     }
 }
+
 
 sub eliminar {
     my ($self, $data) = @_;
