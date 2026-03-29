@@ -17,7 +17,6 @@ sub new {
     return $self;
 }
 
-#lista vacia
 sub is_empty {
     my ($self) = @_;
     return !defined($self->{cabeza}) ? 1:0;
@@ -45,7 +44,7 @@ sub insertar {
             else {
                 my ($numero) = $self->{cola}->get_data()->get_codigo_medicamento() =~ /(\d+)/;
                 
-                my $nuevo_codigo_generado = sprintf("MED%03d", $numero + 1);
+                my $nuevo_codigo_generado = sprintf("MED%03d", ($numero || 0) + 1);
                 $nuevo_med->set_codigo_medicamento($nuevo_codigo_generado);
                 return $self->insertar($nuevo_med);
             }
@@ -95,27 +94,25 @@ sub eliminar {
     my $actual = $self->{cabeza};
 
     while (defined($actual)) {
-        if ($actual->get_data()->get_codigo() eq $codigo) {
+        if ($actual->get_data()->get_codigo_medicamento() eq $codigo) {
             
-            # Si es la cabeza
-            if ($actual == $self->{cabeza}) {
+            if ($actual == $self->{cabeza} && $actual == $self->{cola}) {
+                $self->{cabeza} = undef;
+                $self->{cola} = undef;
+            }
+            elsif ($actual == $self->{cabeza}) {
                 $self->{cabeza} = $actual->get_next();
                 $self->{cabeza}->set_prev(undef) if defined($self->{cabeza});
             } 
-            # Si es la cola
             elsif ($actual == $self->{cola}) {
                 $self->{cola} = $actual->get_prev();
                 $self->{cola}->set_next(undef) if defined($self->{cola});
             }
-            # Si está en medio
             else {
                 $actual->get_prev()->set_next($actual->get_next());
                 $actual->get_next()->set_prev($actual->get_prev());
             }
 
-            # Si la lista quedó vacía
-            $self->{cola} = undef if !defined($self->{cabeza});
-            
             print "\nMedicamento $codigo eliminado.\n";
             return;
         }
@@ -129,24 +126,19 @@ sub agregar_final {
     my $nuevo_nodo = Nodo -> new($data);
 
     if($self -> is_empty()){
-    
         $self -> {cabeza} = $nuevo_nodo;
         $self -> {cola} = $nuevo_nodo;
         return;
-    
     }
 
     $nuevo_nodo -> set_prev($self -> {cola});
     $self -> {cola} -> set_next($nuevo_nodo);
     $self -> {cola} = $nuevo_nodo;
-
 }
 
 sub imprimir {
-
     my ($self) = @_;
 
-    #lista vacia
     if($self -> is_empty()){
         print "\n La lista esta vacia\n";
         return;
@@ -157,35 +149,34 @@ sub imprimir {
     my $actual = $self -> {cabeza};
 
     while(defined($actual)){
-        print "\nCodigo: " . $actual -> get_data() -> get_codigo_medicamento() . "\n";
-        print "Nombre comercial: " . $actual -> get_data() -> get_nombre_comercial() . "\n";
-        print "Principio activo: " . $actual -> get_data() -> get_principio_activo() . "\n";
-        print "Laboratorio: " . $actual -> get_data() -> get_laboratorio_fabricante() . "\n";
-        print "Stock: " . $actual -> get_data() -> get_stock() . "\n";
-        print "Vencimiento: " . $actual -> get_data() -> get_vencimiento() . "\n";
-        print "Precio: " . $actual -> get_data() -> get_precio() . "\n";
-        print "Nivel reorden: " . $actual -> get_data() -> get_nivel_reorden() . "\n";
+        my $m = $actual->get_data();
+        print "\nCodigo: " . $m -> get_codigo_medicamento() . "\n";
+        print "Nombre comercial: " . $m -> get_nombre_comercial() . "\n";
+        print "Principio activo: " . $m -> get_principio_activo() . "\n";
+        print "Laboratorio: " . $m -> get_laboratorio_fabricante() . "\n";
+        print "Stock: " . $m -> get_stock() . "\n";
+        print "Vencimiento: " . $m -> get_vencimiento() . "\n";
+        print "Precio: " . $m -> get_precio() . "\n";
+        print "Nivel reorden: " . $m -> get_nivel_reorden() . "\n";
         print "\n";
         
         $actual = $actual -> get_next();
     }
-
 }
 
 sub buscar {
-    my ($self, $data) =@_;
+    my ($self, $codigo) =@_;
 
     my $actual = $self -> {cabeza};
 
     while(defined($actual)){
-        if($actual -> get_data() eq $data){
+        if($actual -> get_data() -> get_codigo_medicamento() eq $codigo){
             return 1;
         }
         $actual = $actual -> get_next();
     }
 
     return 0;
-
 }
 
 sub tamanio {

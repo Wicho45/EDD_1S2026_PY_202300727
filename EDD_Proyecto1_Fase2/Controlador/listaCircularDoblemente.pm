@@ -40,7 +40,7 @@ sub insertar {
 }
 
 sub eliminar {
-    my ($self, $data) = @_;
+    my ($self, $nit) = @_;
 
     if ($self->is_empty()) {
         print "\nLa lista está vacía, nada que eliminar.\n";
@@ -51,7 +51,7 @@ sub eliminar {
     my $encontrado = 0;
 
     do {
-        if ($actual->get_data() == $data) {
+        if ($actual->get_data()->get_nit() eq $nit) {
             $encontrado = 1;
             last;
         }
@@ -75,9 +75,9 @@ sub eliminar {
                 $self->{cabeza} = $siguiente;
             }
         }
-        print "\nDato '$data' eliminado correctamente.\n";
+        print "\nProveedor con NIT '$nit' eliminado correctamente.\n";
     } else {
-        print "\nEl dato '$data' no se encuentra en la lista.\n";
+        print "\nEl proveedor con NIT '$nit' no se encuentra en la lista.\n";
     }
 }
 
@@ -88,10 +88,26 @@ sub imprimir {
     my $actual = $self->{cabeza};
     print "Lista Circular Doble: ";
     do {
-        print $actual->get_data() . " <-> ";
+        my $p = $actual->get_data();
+        print "[" . $p->get_nit() . ": " . $p->get_nombre_empresa() . "] <-> ";
         $actual = $actual->get_next();
     } while ($actual != $self->{cabeza});
     print "(regresa al inicio)\n";
+}
+
+sub buscar {
+    my ($self, $nit) = @_;
+    return undef if $self->is_empty();
+
+    my $actual = $self->{cabeza};
+    do {
+        if ($actual->get_data()->get_nit() eq $nit) {
+            return $actual->get_data();
+        }
+        $actual = $actual->get_next();
+    } while ($actual != $self->{cabeza});
+
+    return undef;
 }
 
 1;

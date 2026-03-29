@@ -13,7 +13,7 @@ use Vista::user;
 use constant user => 'Vista::user';
 
 sub mostrar_login {
-    my ($class, $arbol_usuarios, $lista_proveedores, $lista_medicamentos, $arbol_equipo) = @_;
+    my ($class, $arbol_usuarios, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros) = @_;
 
     my $dialog = Gtk3::Dialog->new(
         'Login - EDD Medtrack', 
@@ -73,7 +73,7 @@ sub mostrar_login {
 
                 $dialog->hide();
 
-                my $v_admin = admin->mostrar_admin($arbol_usuarios, $user_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo);
+                my $v_admin = admin->mostrar_admin($arbol_usuarios, $user_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros);
 
                 $v_admin->signal_connect(destroy => sub {
                     $entry_usuario->set_text("");
@@ -99,7 +99,7 @@ sub mostrar_login {
             $dialog->hide();
 
             if ($usuario_encontrado->get_data()->get_tipo() == 5) {
-                my $v_admin = admin->mostrar_admin($arbol_usuarios, $user_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo);
+                my $v_admin = admin->mostrar_admin($arbol_usuarios, $user_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros);
 
                 $v_admin->signal_connect(destroy => sub {
                     $dialog->show();

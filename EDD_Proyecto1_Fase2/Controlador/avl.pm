@@ -62,7 +62,6 @@ sub _rotar_derecha {
     return $x;
 }
 
-
 sub _rotar_izquierda {
     my ($self, $x) = @_;
 
@@ -161,30 +160,42 @@ sub eliminar {
     return if $self->is_empty();
 
     my $id_eliminar = $self->_extraer_id_numerico($colegio_str);
-    $self->{root} = $self->_eliminar_recursivo($self->{root}, $id_eliminar);
-    $self->{size}--;
+    my ($nueva_raiz, $eliminado) = $self->_eliminar_recursivo($self->{root}, $id_eliminar);
+    $self->{root} = $nueva_raiz;
+    
+    if ($eliminado) {
+        $self->{size}--;
+        print "Valor '$colegio_str' eliminado exitosamente.\n";
+    }
 }
 
 sub _eliminar_recursivo {
     my ($self, $nodo_actual, $id_eliminar) = @_;
-    return undef unless defined($nodo_actual);
+    return (undef, 0) unless defined($nodo_actual);
 
     my $id_actual = $self->_extraer_id_numerico($nodo_actual->get_data()->get_numero_colegio());
+    my $eliminado = 0;
 
     if ($id_eliminar < $id_actual) {
-        $nodo_actual->set_left($self->_eliminar_recursivo($nodo_actual->get_left(), $id_eliminar));
+        my ($hijo_izq, $e) = $self->_eliminar_recursivo($nodo_actual->get_left(), $id_eliminar);
+        $nodo_actual->set_left($hijo_izq);
+        $eliminado = $e;
     } elsif ($id_eliminar > $id_actual) {
-        $nodo_actual->set_right($self->_eliminar_recursivo($nodo_actual->get_right(), $id_eliminar));
+        my ($hijo_der, $e) = $self->_eliminar_recursivo($nodo_actual->get_right(), $id_eliminar);
+        $nodo_actual->set_right($hijo_der);
+        $eliminado = $e;
     } else {
-        if (!defined($nodo_actual->get_left())) { return $nodo_actual->get_right(); }
-        elsif (!defined($nodo_actual->get_right())) { return $nodo_actual->get_left(); }
+        $eliminado = 1;
+        if (!defined($nodo_actual->get_left())) { return ($nodo_actual->get_right(), 1); }
+        elsif (!defined($nodo_actual->get_right())) { return ($nodo_actual->get_left(), 1); }
         
         my $sucesor = $self->_encontrar_minimo($nodo_actual->get_right());
         $nodo_actual->set_data($sucesor->get_data());
         my $id_sucesor = $self->_extraer_id_numerico($sucesor->get_data()->get_numero_colegio());
-        $nodo_actual->set_right($self->_eliminar_recursivo($nodo_actual->get_right(), $id_sucesor));
+        my ($hijo_der_nuevo, $unused) = $self->_eliminar_recursivo($nodo_actual->get_right(), $id_sucesor);
+        $nodo_actual->set_right($hijo_der_nuevo);
     }
-    return $self->_balancear($nodo_actual);
+    return ($self->_balancear($nodo_actual), $eliminado);
 }
 
 sub _encontrar_minimo {
@@ -245,7 +256,7 @@ sub _inorden_rec {
     my ($self, $nodo) = @_;
     return unless defined($nodo);
     $self->_inorden_rec($nodo->get_left());   
-    print $nodo->get_data() . " ";
+    print $nodo->get_data()->get_numero_colegio() . " ";
     $self->_inorden_rec($nodo->get_right());  
 }
 
@@ -260,7 +271,7 @@ sub recorrido_preorden {
 sub _preorden_rec {
     my ($self, $nodo) = @_;
     return unless defined($nodo);
-    print $nodo->get_data() . " ";
+    print $nodo->get_data()->get_numero_colegio() . " ";
     $self->_preorden_rec($nodo->get_left());  
     $self->_preorden_rec($nodo->get_right());  
 }
@@ -278,9 +289,8 @@ sub _postorden_rec {
     return unless defined($nodo);
     $self->_postorden_rec($nodo->get_left());   
     $self->_postorden_rec($nodo->get_right()); 
-    print $nodo->get_data() . " ";
+    print $nodo->get_data()->get_numero_colegio() . " ";
 }
-
 
 sub encontrar_minimo {
     my ($self) = @_;
@@ -306,7 +316,7 @@ sub _imprimir_rec {
     my ($self, $nodo) = @_;
     return unless defined($nodo);
     $self->_imprimir_rec($nodo->get_left());
-    print $nodo->get_data() . "(h=" . $nodo->get_altura() .
+    print $nodo->get_data()->get_numero_colegio() . "(h=" . $nodo->get_altura() .
         ",fe=" . $self->_factor_equilibrio($nodo) . ") ";
     $self->_imprimir_rec($nodo->get_right());
 }

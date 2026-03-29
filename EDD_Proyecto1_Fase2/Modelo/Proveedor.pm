@@ -3,8 +3,8 @@ package Modelo::Proveedor;
 use strict;
 use warnings;
 
-use Controlador::ListaSimple;
-use constant ListaSimple => 'Controlador::ListaSimple';
+use Controlador::listaSimple;
+use constant ListaSimple => 'Controlador::listaSimple';
 
 sub new {
     my($class, $nit, $nombre_empresa, $contacto_principal, $telefono, $direccion)= @_;

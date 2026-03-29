@@ -29,16 +29,17 @@ sub get_size {
 }
 
 sub insertar {
-    my ($self, $data) = @_;
+    my ($self, $equipo_obj) = @_;
+    my $data = $equipo_obj->get_codigo();
 
     if (!defined($self->{root})) {
-        $self->{root} = Nodo->new($data);
+        $self->{root} = Nodo->new($equipo_obj);
         $self->{size}++;
         print " -----> Insertado '$data' como ROOT del arbol.\n";
         return;
     }
 
-    my $insertado = $self->_insertar_recursivo($self->{root}, $data);
+    my $insertado = $self->_insertar_recursivo($self->{root}, $equipo_obj);
 
     if ($insertado) {
         $self->{size}++;
@@ -46,108 +47,109 @@ sub insertar {
 }
 
 sub _insertar_recursivo {
-    my ($self, $nodo_actual, $data) = @_;
+    my ($self, $nodo_actual, $equipo_obj) = @_;
 
-    my $valor_actual = $nodo_actual->get_data();
+    my $data = $equipo_obj->get_codigo();
+    my $valor_actual = $nodo_actual->get_data()->get_codigo();
 
-    if ($data < $valor_actual) {
+    if ($data lt $valor_actual) {
 
         if (!defined($nodo_actual->get_left())) {
-            $nodo_actual->set_left(Nodo->new($data));
+            $nodo_actual->set_left(Nodo->new($equipo_obj));
             print "Insertado '$data' a la IZQUIERDA de '$valor_actual'.\n";
             return 1;
         } else {
-            return $self->_insertar_recursivo($nodo_actual->get_left(), $data);
+            return $self->_insertar_recursivo($nodo_actual->get_left(), $equipo_obj);
         }
     }
 
-    elsif ($data > $valor_actual) {
+    elsif ($data gt $valor_actual) {
 
         if (!defined($nodo_actual->get_right())) {
-            $nodo_actual->set_right(Nodo->new($data));
+            $nodo_actual->set_right(Nodo->new($equipo_obj));
             print "Insertado '$data' a la DERECHA de '$valor_actual'.\n";
             return 1;
         } else {
-            return $self->_insertar_recursivo($nodo_actual->get_right(), $data);
+            return $self->_insertar_recursivo($nodo_actual->get_right(), $equipo_obj);
         }
     }
 
     else {
-        print "ERRRO: El valor '$data' ya existe en el arbol. No se insertaron duplicados pipipipi.\n";
+        print "ERRRO: El valor '$data' ya existe en el arbol. No se insertaron duplicados.\n";
         return 0;
     }
 }
 
 sub buscar {
-    my ($self, $data) = @_;
+    my ($self, $codigo) = @_;
 
     if ($self->is_empty()) {
         print "El arbol está vacio. No hay nada que buscar.\n";
         return undef;
     }
-    return $self->_buscar_recursivo($self->{root}, $data);
+    return $self->_buscar_recursivo($self->{root}, $codigo);
 }
 
 sub _buscar_recursivo {
-    my ($self, $nodo_actual, $data) = @_;
+    my ($self, $nodo_actual, $codigo) = @_;
 
     if (!defined($nodo_actual)) {
         return undef;
     }
 
-    my $valor_actual = $nodo_actual->get_data();
+    my $valor_actual = $nodo_actual->get_data()->get_codigo();
 
-    if ($data == $valor_actual) {
+    if ($codigo eq $valor_actual) {
         return $nodo_actual;
     }
-    elsif ($data < $valor_actual) {
-        return $self->_buscar_recursivo($nodo_actual->get_left(), $data);
+    elsif ($codigo lt $valor_actual) {
+        return $self->_buscar_recursivo($nodo_actual->get_left(), $codigo);
     }
 
     else {
-        return $self->_buscar_recursivo($nodo_actual->get_right(), $data);
+        return $self->_buscar_recursivo($nodo_actual->get_right(), $codigo);
     }
 }
 
 
 sub eliminar {
-    my ($self, $data) = @_;
+    my ($self, $codigo) = @_;
 
     if ($self->is_empty()) {
         print "El arbol está vacio. No hay nada que eliminar.\n";
         return;
     }
 
-    my $existe = $self->buscar($data);
+    my $existe = $self->buscar($codigo);
     if (!defined($existe)) {
-        print "El valor '$data' no existe en el arbol.\n";
+        print "El valor '$codigo' no existe en el arbol.\n";
         return;
     }
 
-    $self->{root} = $self->_eliminar_recursivo($self->{root}, $data);
+    $self->{root} = $self->_eliminar_recursivo($self->{root}, $codigo);
     $self->{size}--;
-    print "Valor '$data' eliminado exitosamente.\n";
+    print "Valor '$codigo' eliminado exitosamente.\n";
 }
 
 
 sub _eliminar_recursivo {
-    my ($self, $nodo_actual, $data) = @_;
+    my ($self, $nodo_actual, $codigo) = @_;
 
     if (!defined($nodo_actual)) {
         return undef;
     }
 
-    my $valor_actual = $nodo_actual->get_data();
+    my $valor_actual = $nodo_actual->get_data()->get_codigo();
 
-    if ($data < $valor_actual) {
+    if ($codigo lt $valor_actual) {
         $nodo_actual->set_left(
-            $self->_eliminar_recursivo($nodo_actual->get_left(), $data)
+            $self->_eliminar_recursivo($nodo_actual->get_left(), $codigo)
         );
         return $nodo_actual;
 
-    } elsif ($data > $valor_actual) {
+    } elsif ($codigo gt $valor_actual) {
         $nodo_actual->set_right(
-            $self->_eliminar_recursivo($nodo_actual->get_right(), $data)
+            $self->_eliminar_recursivo($nodo_actual->get_right(), $codigo)
         );
         return $nodo_actual;
 
@@ -172,13 +174,13 @@ sub _eliminar_recursivo {
             print "Buscando sucesor inorden en el subarbol derecho, o sea izquierda -> root -> derecha (ver pizarron si hay confusión aun en esto)...\n";
 
             my $sucesor = $self->_encontrar_minimo($nodo_actual->get_right());
-            my $valor_sucesor = $sucesor->get_data();
+            my $equipo_sucesor = $sucesor->get_data();
 
-            print "Sucesor inorden encontrado: '$valor_sucesor'. Reemplazando...\n";
+            print "Sucesor inorden encontrado: '" . $equipo_sucesor->get_codigo() . "'. Reemplazando...\n";
 
-            $nodo_actual->set_data($valor_sucesor);
+            $nodo_actual->set_data($equipo_sucesor);
             $nodo_actual->set_right(
-                $self->_eliminar_recursivo($nodo_actual->get_right(), $valor_sucesor)
+                $self->_eliminar_recursivo($nodo_actual->get_right(), $equipo_sucesor->get_codigo())
             );
 
             return $nodo_actual;  
@@ -206,8 +208,6 @@ sub encontrar_minimo {
     my $nodo_min = $self->_encontrar_minimo($self->{root});
     return $nodo_min->get_data();
 }
-
-
 
 sub encontrar_maximo {
     my ($self) = @_;
@@ -240,7 +240,7 @@ sub _inorden_recursivo {
 
     $self->_inorden_recursivo($nodo_actual->get_left());
 
-    print $nodo_actual->get_data() . " ";
+    print $nodo_actual->get_data()->get_codigo() . " ";
 
     $self->_inorden_recursivo($nodo_actual->get_right());
 }
@@ -261,7 +261,7 @@ sub _preorden_recursivo {
 
     return if !defined($nodo_actual);
 
-    print $nodo_actual->get_data() . " ";
+    print $nodo_actual->get_data()->get_codigo() . " ";
 
     $self->_preorden_recursivo($nodo_actual->get_left());
 
@@ -288,7 +288,7 @@ sub _postorden_recursivo {
 
     $self->_postorden_recursivo($nodo_actual->get_right());
 
-    print $nodo_actual->get_data() . " ";
+    print $nodo_actual->get_data()->get_codigo() . " ";
 }
 
 sub imprimir_arbol {
@@ -302,8 +302,8 @@ sub _imprimir_recursivo {
     return if !defined($nodo);
 
     $self->_imprimir_recursivo($nodo->get_left());
-    print $nodo->get_data() . " ";
+    print $nodo->get_data()->get_codigo() . " ";
     $self->_imprimir_recursivo($nodo->get_right());
 }
 
-1; 
+1;

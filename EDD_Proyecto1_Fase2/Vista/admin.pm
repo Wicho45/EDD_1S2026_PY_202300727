@@ -4,9 +4,13 @@ use strict;
 use warnings;
 use Gtk3;
 use utf8;
+use JSON;
+
+use Controlador::cargaMasiva;
+use constant cargaMasiva => 'Controlador::cargaMasiva';
 
 sub mostrar_admin {
-    my ($class, $arbol_usuarios, $usuario_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo) = @_;
+    my ($class, $arbol_usuarios, $usuario_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros) = @_;
 
     my $window = Gtk3::Window->new('toplevel');
     $window->set_title("Panel de Administración - Medtrack");
@@ -68,7 +72,50 @@ sub mostrar_admin {
     ## boton para carga masiva
     my $btn_nuevo = Gtk3::Button->new_with_label("Carga Masiva");
     $btn_nuevo->signal_connect(clicked => sub {
-        print "Hiciste clic en el nuevo botón\n";
+
+        my $file_chooser = Gtk3::FileChooserDialog->new(
+            "Seleccionar Archivo JSON",
+            $window,    
+            'open',     
+            'gtk-cancel' => 'cancel',
+            'gtk-open'   => 'accept'
+        );
+
+        my $filtro = Gtk3::FileFilter->new();
+        $filtro->set_name("Archivos JSON");
+        $filtro->add_mime_type("application/json");
+        $filtro->add_pattern("*.json");
+
+        $file_chooser->add_filter($filtro);
+        $file_chooser->set_current_folder('/Volumes/Información y Archivos');
+
+        if ($file_chooser->run() eq 'accept') {
+            my $filename = $file_chooser->get_filename();
+            print "Archivo seleccionado: $filename\n";
+
+            my ($exito, $mensaje) = Controlador::cargaMasiva->carga_masiva(
+                $filename, 
+                $arbol_usuarios, 
+                $lista_proveedores, 
+                $lista_medicamentos, 
+                $arbol_equipo, 
+                $arbol_suministros
+            );
+
+            my $dialog_msg = Gtk3::MessageDialog->new(
+                $window, 'modal', 
+                ($exito ? 'info' : 'error'), 
+                'ok', $mensaje
+            );
+            $dialog_msg->run();
+            $dialog_msg->destroy();
+
+            if ($exito) {
+                $model->clear(); 
+                llenar_tabla_desde_avl($model, $arbol_usuarios); 
+            }
+        }
+        $file_chooser->destroy();
     });
     $hbox_botones->pack_start($btn_nuevo, 0, 0, 5);
 
