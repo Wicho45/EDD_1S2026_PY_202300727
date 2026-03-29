@@ -1,0 +1,79 @@
+digraph G {
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=12, width=1.5, height=0.6];
+    edge [dir=both, arrowsize=0.6];
+    newrank=true;
+    nodesep=0.4;
+    ranksep=0.4;
+    raiz [label="Proveedor\n/ Fabricante", fillcolor=lightgray, group=0];
+    "col_ACME S.A." [label="ACME S.A.", fillcolor=lightblue, group=1];
+    "col_CardioTech" [label="CardioTech", fillcolor=lightblue, group=2];
+    "col_DeTodo" [label="DeTodo", fillcolor=lightblue, group=3];
+    "col_MediFlow" [label="MediFlow", fillcolor=lightblue, group=4];
+    "col_SafeMed" [label="SafeMed", fillcolor=lightblue, group=5];
+    "col_UltraMed" [label="UltraMed", fillcolor=lightblue, group=6];
+    "col_errorControlado??" [label="errorControlado??", fillcolor=lightblue, group=7];
+    "col_errorCrontrolado??" [label="errorCrontrolado??", fillcolor=lightblue, group=8];
+    raiz -> "col_ACME S.A.";
+    "col_ACME S.A." -> "col_CardioTech";
+    "col_CardioTech" -> "col_DeTodo";
+    "col_DeTodo" -> "col_MediFlow";
+    "col_MediFlow" -> "col_SafeMed";
+    "col_SafeMed" -> "col_UltraMed";
+    "col_UltraMed" -> "col_errorControlado??";
+    "col_errorControlado??" -> "col_errorCrontrolado??";
+    { rank=same; raiz; "col_ACME S.A."; "col_CardioTech"; "col_DeTodo"; "col_MediFlow"; "col_SafeMed"; "col_UltraMed"; "col_errorControlado??"; "col_errorCrontrolado??" }
+    "fila_Camerun Sal" [label="Camerun Sal", fillcolor=lightpink, group=0];
+    "n_Camerun Sal_DeTodo" [label="Cant: 9", fillcolor=white, group=3];
+    "n_Camerun Sal_MediFlow" [label="Cant: 5000", fillcolor=white, group=4];
+    "n_Camerun Sal_UltraMed" [label="Cant: 375", fillcolor=white, group=6];
+    "n_Camerun Sal_errorControlado??" [label="Cant: 10", fillcolor=white, group=7];
+    "n_Camerun Sal_errorCrontrolado??" [label="Cant: 200", fillcolor=white, group=8];
+    { rank=same; "fila_Camerun Sal"; "n_Camerun Sal_DeTodo"; "n_Camerun Sal_MediFlow"; "n_Camerun Sal_UltraMed"; "n_Camerun Sal_errorControlado??"; "n_Camerun Sal_errorCrontrolado??" }
+    "fila_Juanito Maravilla" [label="Juanito Maravilla", fillcolor=lightpink, group=0];
+    "n_Juanito Maravilla_ACME S.A." [label="Cant: 9458", fillcolor=white, group=1];
+    { rank=same; "fila_Juanito Maravilla"; "n_Juanito Maravilla_ACME S.A." }
+    "fila_Monito Dinamita" [label="Monito Dinamita", fillcolor=lightpink, group=0];
+    "n_Monito Dinamita_MediFlow" [label="Cant: 510", fillcolor=white, group=4];
+    "n_Monito Dinamita_SafeMed" [label="Cant: 690", fillcolor=white, group=5];
+    { rank=same; "fila_Monito Dinamita"; "n_Monito Dinamita_MediFlow"; "n_Monito Dinamita_SafeMed" }
+    "fila_Pedrito Alcachofa" [label="Pedrito Alcachofa", fillcolor=lightpink, group=0];
+    "n_Pedrito Alcachofa_DeTodo" [label="Cant: 2520", fillcolor=white, group=3];
+    "n_Pedrito Alcachofa_MediFlow" [label="Cant: 128", fillcolor=white, group=4];
+    { rank=same; "fila_Pedrito Alcachofa"; "n_Pedrito Alcachofa_DeTodo"; "n_Pedrito Alcachofa_MediFlow" }
+    "fila_Tercio Casi" [label="Tercio Casi", fillcolor=lightpink, group=0];
+    "n_Tercio Casi_ACME S.A." [label="Cant: 4000", fillcolor=white, group=1];
+    "n_Tercio Casi_CardioTech" [label="Cant: 504", fillcolor=white, group=2];
+    "n_Tercio Casi_DeTodo" [label="Cant: 2515", fillcolor=white, group=3];
+    { rank=same; "fila_Tercio Casi"; "n_Tercio Casi_ACME S.A."; "n_Tercio Casi_CardioTech"; "n_Tercio Casi_DeTodo" }
+    raiz -> "fila_Camerun Sal";
+    "fila_Camerun Sal" -> "fila_Juanito Maravilla";
+    "fila_Juanito Maravilla" -> "fila_Monito Dinamita";
+    "fila_Monito Dinamita" -> "fila_Pedrito Alcachofa";
+    "fila_Pedrito Alcachofa" -> "fila_Tercio Casi";
+    "fila_Camerun Sal" -> "n_Camerun Sal_DeTodo";
+    "n_Camerun Sal_DeTodo" -> "n_Camerun Sal_MediFlow";
+    "n_Camerun Sal_MediFlow" -> "n_Camerun Sal_UltraMed";
+    "n_Camerun Sal_UltraMed" -> "n_Camerun Sal_errorControlado??";
+    "n_Camerun Sal_errorControlado??" -> "n_Camerun Sal_errorCrontrolado??";
+    "fila_Juanito Maravilla" -> "n_Juanito Maravilla_ACME S.A.";
+    "fila_Monito Dinamita" -> "n_Monito Dinamita_MediFlow";
+    "n_Monito Dinamita_MediFlow" -> "n_Monito Dinamita_SafeMed";
+    "fila_Pedrito Alcachofa" -> "n_Pedrito Alcachofa_DeTodo";
+    "n_Pedrito Alcachofa_DeTodo" -> "n_Pedrito Alcachofa_MediFlow";
+    "fila_Tercio Casi" -> "n_Tercio Casi_ACME S.A.";
+    "n_Tercio Casi_ACME S.A." -> "n_Tercio Casi_CardioTech";
+    "n_Tercio Casi_CardioTech" -> "n_Tercio Casi_DeTodo";
+    "col_ACME S.A." -> "n_Juanito Maravilla_ACME S.A.";
+    "n_Juanito Maravilla_ACME S.A." -> "n_Tercio Casi_ACME S.A.";
+    "col_CardioTech" -> "n_Tercio Casi_CardioTech";
+    "col_DeTodo" -> "n_Camerun Sal_DeTodo";
+    "n_Camerun Sal_DeTodo" -> "n_Pedrito Alcachofa_DeTodo";
+    "n_Pedrito Alcachofa_DeTodo" -> "n_Tercio Casi_DeTodo";
+    "col_MediFlow" -> "n_Camerun Sal_MediFlow";
+    "n_Camerun Sal_MediFlow" -> "n_Monito Dinamita_MediFlow";
+    "n_Monito Dinamita_MediFlow" -> "n_Pedrito Alcachofa_MediFlow";
+    "col_SafeMed" -> "n_Monito Dinamita_SafeMed";
+    "col_UltraMed" -> "n_Camerun Sal_UltraMed";
+    "col_errorControlado??" -> "n_Camerun Sal_errorControlado??";
+    "col_errorCrontrolado??" -> "n_Camerun Sal_errorCrontrolado??";
+}

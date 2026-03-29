@@ -22,7 +22,7 @@ use Modelo::Suministro;
 use constant Suministro => 'Modelo::Suministro';
 
 sub carga_masiva {
-    my ($class, $ruta, $arbol_usuarios, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros) = @_;
+    my ($class, $ruta, $arbol_usuarios, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros, $matriz_dispersa) = @_;
 
     open(my $fh, '<:raw', $ruta) or die "No se pudo abrir el archivo: $!";
     my $json_bytes = do { local $/; <$fh> };
@@ -40,7 +40,7 @@ sub carga_masiva {
         return _procesar_usuarios($data->{usuarios}, $arbol_usuarios);
     } 
     elsif (exists $data->{proveedor}) {
-        return _procesar_proveedores($data->{proveedor}, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros);
+        return _procesar_proveedores($data->{proveedor}, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros, $matriz_dispersa);
     } 
     else {
         return (0, "Formato de archivo no reconocido.");
@@ -73,14 +73,16 @@ sub _procesar_usuarios {
 }
 
 sub _procesar_proveedores {
-    my ($lista_json, $lista_circular_proveedores, $lista_doble_medicamentos, $arbol_bst_equipo, $arbol_b_suministros) = @_;
+    my ($lista_json, $lista_circular_proveedores, $lista_doble_medicamentos, $arbol_bst_equipo, $arbol_b_suministros, $matriz) = @_;
     my $prov_cont = 0;
     my $prod_cont = 0;
 
     foreach my $p (@$lista_json) {
+        my $nombre_proveedor = $p->{nombre}; 
+
         my $nuevo_proveedor = Modelo::Proveedor->new(
             $p->{nit}, 
-            $p->{nombre}, 
+            $nombre_proveedor, 
             "No especificado", 
             $p->{telefono}, 
             $p->{direccion}
@@ -92,46 +94,39 @@ sub _procesar_proveedores {
 
         foreach my $e (@{$p->{entrega}}) {
             my $codigo = $e->{codigo} // "N/A";
+            my $fabricante = $e->{fabricante} // "Desconocido";
+            my $cantidad = $e->{cantidad} // 0;
             
-            if (($e->{cantidad} // 0) <= 0 || ($e->{precio_unitario} // 0) <= 0) {
+            if ($cantidad <= 0 || ($e->{precio_unitario} // 0) <= 0) {
                 next;
+            }
+
+            if (defined $matriz) {
+                $matriz->insertar_o_sumar($nombre_proveedor, $fabricante, $cantidad);
             }
 
             my $tipo = $e->{tipo};
             
             if ($tipo eq "MEDICAMENTO") {
                 my $med = Modelo::Medicamento->new(
-                    $e->{codigo}, 
-                    $e->{nombre}, 
-                    $e->{principio_activo} // "N/A",
-                    $e->{fabricante}, 
-                    $e->{cantidad}, 
-                    $e->{fecha_vencimiento},
-                    $e->{precio_unitario}, 
-                    $e->{nivel_minimo}
+                    $e->{codigo}, $e->{nombre}, $e->{principio_activo} // "N/A",
+                    $fabricante, $cantidad, $e->{fecha_vencimiento},
+                    $e->{precio_unitario}, $e->{nivel_minimo}
                 );
                 $lista_doble_medicamentos->insertar($med); 
 
             } elsif ($tipo eq "EQUIPO") {
                 my $equipo = Modelo::Equipo->new(
-                    $e->{codigo}, 
-                    $e->{nombre}, 
-                    $e->{fabricante},
-                    $e->{precio_unitario}, 
-                    $e->{cantidad}, 
-                    $e->{fecha_ingreso},
+                    $e->{codigo}, $e->{nombre}, $fabricante,
+                    $e->{precio_unitario}, $cantidad, $e->{fecha_ingreso},
                     $e->{nivel_minimo}
                 );
                 $arbol_bst_equipo->insertar($equipo);
 
             } elsif ($tipo eq "SUMINISTRO") {
                 my $sum = Modelo::Suministro->new(
-                    $e->{codigo}, 
-                    $e->{nombre}, 
-                    $e->{fabricante},
-                    $e->{precio_unitario}, 
-                    $e->{cantidad}, 
-                    $e->{fecha_vencimiento},
+                    $e->{codigo}, $e->{nombre}, $fabricante,
+                    $e->{precio_unitario}, $cantidad, $e->{fecha_vencimiento},
                     $e->{nivel_minimo}
                 );
                 $arbol_b_suministros->insertar($sum);
@@ -144,14 +139,6 @@ sub _procesar_proveedores {
     }
 
     return (1, "Carga masiva completada: $prov_cont proveedores y $prod_cont productos.");
-}
-
-sub mostrar_mensaje {
-    my ($parent, $tipo, $titulo, $texto) = @_;
-    my $m = Gtk3::MessageDialog->new($parent, 'modal', $tipo, 'ok', $texto);
-    $m->set_title($titulo);
-    $m->run();
-    $m->destroy();
 }
 
 1;

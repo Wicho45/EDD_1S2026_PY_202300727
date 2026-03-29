@@ -17,6 +17,8 @@ use Controlador::listaDoblemente;
 use constant listaDoblemente => 'Controlador::listaDoblemente';
 use Controlador::btree;
 use constant btree => 'Controlador::btree';
+use Controlador::MatrizDispersa;
+use constant MatrizDispersa => 'Controlador::MatrizDispersa';
 
 sub main {
 
@@ -25,8 +27,9 @@ sub main {
     my $lista_medicamentos = listaDoblemente->new(); #lista circular para almacenar medicamentos
     my $arbol_equipo = bst->new(); #arbol para almacenar equipo 
     my $arbol_suministros = btree->new(4); #btree para almacenar suministros
+    my $matriz_proveedores_fabricantes = MatrizDispersa->new(); #matriz dispersa para relacionar proveedores y fabricantes
 
-    Vista::login->mostrar_login($arbol_usuarios, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros);
+    Vista::login->mostrar_login($arbol_usuarios, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros, $matriz_proveedores_fabricantes);
 }
 
 main();

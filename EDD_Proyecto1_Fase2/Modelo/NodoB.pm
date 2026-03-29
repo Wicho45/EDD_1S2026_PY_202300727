@@ -23,13 +23,16 @@ sub get_hijos_head  { return $_[0]->{hijos_head}; }
 sub agregar_clave_ordenada {
     my ($self, $val) = @_;
     my $nueva = { val => $val, sig => undef };
+    my $cod_val = int($val->get_codigo());
 
-    if (!defined($self->{claves_head}) || $val lt $self->{claves_head}->{val}) {
+    if (!defined($self->{claves_head}) || 
+        $cod_val < int($self->{claves_head}->{val}->get_codigo())) {
         $nueva->{sig} = $self->{claves_head};
         $self->{claves_head} = $nueva;
     } else {
         my $act = $self->{claves_head};
-        while (defined($act->{sig}) && $act->{sig}->{val} lt $val) {
+        while (defined($act->{sig}) && 
+               int($act->{sig}->{val}->get_codigo()) < $cod_val) {
             $act = $act->{sig};
         }
         $nueva->{sig} = $act->{sig};
@@ -42,7 +45,7 @@ sub eliminar_clave {
     my ($self, $val) = @_;
     return 0 unless defined($self->{claves_head});
 
-    if ($self->{claves_head}->{val} eq $val) {
+    if ($self->{claves_head}->{val}->get_codigo() eq $val) {
         $self->{claves_head} = $self->{claves_head}->{sig};
         $self->{num_claves}--;
         return 1;
@@ -50,7 +53,7 @@ sub eliminar_clave {
 
     my $ant = $self->{claves_head};
     while (defined($ant->{sig})) {
-        if ($ant->{sig}->{val} eq $val) {
+        if ($ant->{sig}->{val}->get_codigo() eq $val) {
             $ant->{sig} = $ant->{sig}->{sig};
             $self->{num_claves}--;
             return 1;
@@ -148,7 +151,7 @@ sub contiene_clave {
     my ($self, $val) = @_;
     my $act = $self->{claves_head};
     while ($act) {
-        return 1 if $act->{val} eq $val;
+        return 1 if $act->{val}->get_codigo() eq $val;
         $act = $act->{sig};
     }
     return 0;
@@ -159,8 +162,9 @@ sub get_pos_clave {
     my $act = $self->{claves_head};
     my $i = 0;
     while ($act) {
-        return $i if $act->{val} eq $val;
-        $act = $act->{sig}; $i++;
+        return $i if $act->{val}->get_codigo() eq $val;
+        $act = $act->{sig};
+        $i++;
     }
     return undef;
 }
@@ -169,9 +173,12 @@ sub encontrar_pos_hijo {
     my ($self, $val) = @_;
     my $act = $self->{claves_head};
     my $i = 0;
+    my $codigo = int($val);
+
     while ($act) {
-        return $i if $val lt $act->{val};
-        $act = $act->{sig}; $i++;
+        return $i if $codigo < int($act->{val}->get_codigo());
+        $act = $act->{sig};
+        $i++;
     }
     return $i;
 }
