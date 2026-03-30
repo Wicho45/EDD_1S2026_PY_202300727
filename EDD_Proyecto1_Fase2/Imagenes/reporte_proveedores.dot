@@ -1,0 +1,20 @@
+digraph G {
+    rankdir=LR;
+    nodesep=0.6;
+    ranksep=0.6;
+    splines=true;
+    node [shape=record, style="rounded,filled", fillcolor="lightgreen", color="green", fontname="Arial", fontsize=11, width=2.5, height=1.0];
+    edge [color="blue", arrowsize=0.8];
+    label="LISTA CIRCULAR DOBLE - PROVEEDORES"; labelloc="t"; fontsize=18; fontname="Arial Bold";
+
+    nodo0 [label="{ <prev> | {\N | NIT: 10000001-1\nJuanito Maravilla\nTel: 2233 4455} | <next> }"];
+    nodo1 [label="{ <prev> | {\N | NIT: 10000002-2\nPedrito Alcachofa\nTel: 2244 5566} | <next> }"];
+    nodo2 [label="{ <prev> | {\N | NIT: 10000003-3\nTercio Casi\nTel: 2255 6677} | <next> }"];
+    nodo3 [label="{ <prev> | {\N | NIT: 10000004-4\nMonito Dinamita\nTel: 2266 7788} | <next> }"];
+    nodo4 [label="{ <prev> | {\N | NIT: 10000005-5\nCamerun Sal\nTel: 2277 8899} | <next> }"];
+    nodo0:next -> nodo1:prev [dir=both];
+    nodo1:next -> nodo2:prev [dir=both];
+    nodo2:next -> nodo3:prev [dir=both];
+    nodo3:next -> nodo4:prev [dir=both];
+    nodo4:next -> nodo0:prev [dir=both, color="red", penwidth=1.5, label="circular"];
+}

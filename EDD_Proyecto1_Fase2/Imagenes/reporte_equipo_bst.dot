@@ -1,0 +1,31 @@
+digraph G {
+    graph [ordering="out", ranksep=0.5, nodesep=0.5, fontname="Arial"];
+    node [shape=record, fontname="Arial", fontsize=10, style=filled, fillcolor=white];
+    edge [fontname="Arial", fontsize=8];
+    label="INVENTARIO DE EQUIPOS MÉDICOS";
+    labelloc="t";
+
+    "ModeloEquipoHASH0xa98829798" [label="{ <f0> L | {ID: 051 | Camilla | Fab: ACME S.A. | Cant: 10} | <f2> R }", fillcolor="lightblue", periferies=2];
+    "ModeloEquipoHASH0xa98829798":f0 -> "ModeloEquipoHASH0xa98829cf0";
+    "ModeloEquipoHASH0xa98829cf0" [label="{ <f0> L | {ID: 020 | Monitor | Fab: ACME S.A. | Cant: 5} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa98829cf0":f0 -> "ModeloEquipoHASH0xa98829e58";
+    "ModeloEquipoHASH0xa98829e58" [label="{ <f0> L | {ID: 001 | Jeringas | Fab: ACME S.A. | Cant: 100} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa98829e58":f2 -> "ModeloEquipoHASH0xa9882d090";
+    "ModeloEquipoHASH0xa9882d090" [label="{ <f0> L | {ID: 003 | Bomba Infusión | Fab: MediFlow | Cant: 8} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa9882d090":f2 -> "ModeloEquipoHASH0xa9882f0a8";
+    "ModeloEquipoHASH0xa9882f0a8" [label="{ <f0> L | {ID: 005 | Electrocardiógrafo | Fab: CardioTech | Cant: 4} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa9882f0a8":f2 -> "ModeloEquipoHASH0xa9882fa20";
+    "ModeloEquipoHASH0xa9882fa20" [label="{ <f0> L | {ID: 006 | Autoclave | Fab: DeTodo | Cant: 5} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa9882fa20":f2 -> "ModeloEquipoHASH0xa988320d8";
+    "ModeloEquipoHASH0xa988320d8" [label="{ <f0> L | {ID: 018 | Bandeja | Fab: SafeMed | Cant: 90} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa988320d8":f0 -> "ModeloEquipoHASH0xa98838150";
+    "ModeloEquipoHASH0xa98838150" [label="{ <f0> L | {ID: 010 | Silla de Ruedas | Fab: DeTodo | Cant: 9} | <f2> R }", fillcolor="springgreen", periferies=1];
+    "ModeloEquipoHASH0xa98829cf0":f2 -> "ModeloEquipoHASH0xa98832900";
+    "ModeloEquipoHASH0xa98832900" [label="{ <f0> L | {ID: 048 | Drenaje Pos operatorio | Fab: UltraMed | Cant: 15} | <f2> R }", fillcolor="springgreen", periferies=1];
+    "ModeloEquipoHASH0xa98829798":f2 -> "ModeloEquipoHASH0xa9882cc78";
+    "ModeloEquipoHASH0xa9882cc78" [label="{ <f0> L | {ID: 073 | Estetoscopios | Fab: ACME S.A. | Cant: 5} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa9882cc78":f2 -> "ModeloEquipoHASH0xa9882db88";
+    "ModeloEquipoHASH0xa9882db88" [label="{ <f0> L | {ID: 078 | Desfibrilador | Fab: DeTodo | Cant: 20} | <f2> R }", fillcolor="white", periferies=1];
+    "ModeloEquipoHASH0xa9882db88":f2 -> "ModeloEquipoHASH0xa98830d80";
+    "ModeloEquipoHASH0xa98830d80" [label="{ <f0> L | {ID: 089 | Ballonetas | Fab: MediFlow | Cant: 10} | <f2> R }", fillcolor="springgreen", periferies=1];
+}

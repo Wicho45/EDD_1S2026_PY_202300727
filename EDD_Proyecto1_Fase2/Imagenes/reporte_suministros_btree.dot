@@ -1,0 +1,25 @@
+digraph G {
+    graph [ranksep=0.5, nodesep=0.5, fontname="Arial"];
+    node [shape=record, fontname="Arial", fontsize=10, style=filled];
+    edge [fontname="Arial", fontsize=8];
+    label="ÁRBOL B (ORDEN 4) - INVENTARIO DE SUMINISTROS";
+    labelloc="t";
+
+    "ModeloNodoBHASH0xa98829bd0" [label="{ Claves: 1/4 | { <p0> | 024 | <p1> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa98829bd0":p0 -> "ModeloNodoBHASH0xa9882c5d0";
+    "ModeloNodoBHASH0xa9882c5d0" [label="{ Claves: 2/4 | { <p0> | 008 | <p1> | 012 | <p2> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa9882c5d0":p0 -> "ModeloNodoBHASH0xa98829a08";
+    "ModeloNodoBHASH0xa98829a08" [label="{ Claves: 3/4 | { <p0> | 001 | <p1> | 002 | <p2> | 004 | <p3> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa9882c5d0":p1 -> "ModeloNodoBHASH0xa98830600";
+    "ModeloNodoBHASH0xa98830600" [label="{ Claves: 1/4 | { <p0> | 011 | <p1> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa9882c5d0":p2 -> "ModeloNodoBHASH0xa9882d9c0";
+    "ModeloNodoBHASH0xa9882d9c0" [label="{ Claves: 2/4 | { <p0> | 015 | <p1> | 017 | <p2> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa98829bd0":p1 -> "ModeloNodoBHASH0xa988305d0";
+    "ModeloNodoBHASH0xa988305d0" [label="{ Claves: 2/4 | { <p0> | 033 | <p1> | 084 | <p2> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa988305d0":p0 -> "ModeloNodoBHASH0xa9882c5b8";
+    "ModeloNodoBHASH0xa9882c5b8" [label="{ Claves: 2/4 | { <p0> | 026 | <p1> | 032 | <p2> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa988305d0":p1 -> "ModeloNodoBHASH0xa98832cc0";
+    "ModeloNodoBHASH0xa98832cc0" [label="{ Claves: 1/4 | { <p0> | 041 | <p1> } }", fillcolor="palegreen"];
+    "ModeloNodoBHASH0xa988305d0":p2 -> "ModeloNodoBHASH0xa9882f858";
+    "ModeloNodoBHASH0xa9882f858" [label="{ Claves: 3/4 | { <p0> | 091 | <p1> | 094 | <p2> | 100 | <p3> } }", fillcolor="palegreen"];
+}

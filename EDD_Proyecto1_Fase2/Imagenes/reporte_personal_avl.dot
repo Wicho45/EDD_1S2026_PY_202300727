@@ -1,0 +1,55 @@
+digraph G {
+    graph [nodesep=0.5, ranksep=0.5, fontname="Arial"];
+    node [shape=circle, fontname="Arial", fontsize=9, style=filled, fillcolor=white, width=1.2, fixedsize=true];
+    edge [fontname="Arial", fontsize=8];
+    label="ÁRBOL AVL - PERSONAL MÉDICO";
+    labelloc="t";
+
+    "ModeloUsuarioHASH0xa974b0768" [label="COL-00020
+Rootberto Raiz
+DEP-MED"];
+    "ModeloUsuarioHASH0xa974b0768" -> "ModeloUsuarioHASH0xa97763a98" [label="L"];
+    "ModeloUsuarioHASH0xa97763a98" [label="COL-00006
+Solito mequede
+DEP-CIR"];
+    "ModeloUsuarioHASH0xa97763a98" -> "ModeloUsuarioHASH0xa974b0fd8" [label="L"];
+    "ModeloUsuarioHASH0xa974b0fd8" [label="COL-00003
+Carmen López
+DEP-CIR"];
+    "ModeloUsuarioHASH0xa974b0fd8" -> "ModeloUsuarioHASH0xa974b0b28" [label="L"];
+    "ModeloUsuarioHASH0xa974b0b28" [label="COL-00001
+Maximo Izquierdo
+DEP-CIR"];
+    "ModeloUsuarioHASH0xa974b0fd8" -> "ModeloUsuarioHASH0xa97763a08" [label="R"];
+    "ModeloUsuarioHASH0xa97763a08" [label="COL-00005
+Casiano fuentes
+DEP-LAB"];
+    "ModeloUsuarioHASH0xa97763a98" -> "ModeloUsuarioHASH0xa98829060" [label="R"];
+    "ModeloUsuarioHASH0xa98829060" [label="COL-00018
+Yano Salomon
+DEP-CIR"];
+    "ModeloUsuarioHASH0xa98829060" -> "ModeloUsuarioHASH0xa98838f90" [label="L"];
+    "ModeloUsuarioHASH0xa98838f90" [label="COL-00010
+Bruce willis
+DEP-LAB"];
+    "ModeloUsuarioHASH0xa974b0768" -> "ModeloUsuarioHASH0xa97763168" [label="R"];
+    "ModeloUsuarioHASH0xa97763168" [label="COL-00073
+Benito doctor
+DEP-MED"];
+    "ModeloUsuarioHASH0xa97763168" -> "ModeloUsuarioHASH0xa97f5cba0" [label="L"];
+    "ModeloUsuarioHASH0xa97f5cba0" [label="COL-00051
+Ana Ramírez
+DEP-MED"];
+    "ModeloUsuarioHASH0xa97f5cba0" -> "ModeloUsuarioHASH0xa988389d8" [label="L"];
+    "ModeloUsuarioHASH0xa988389d8" [label="COL-00048
+Jose Jose
+DEP-FAR"];
+    "ModeloUsuarioHASH0xa97763168" -> "ModeloUsuarioHASH0xa97763678" [label="R"];
+    "ModeloUsuarioHASH0xa97763678" [label="COL-00078
+Luis miguel
+DEP-LAB"];
+    "ModeloUsuarioHASH0xa97763678" -> "ModeloUsuarioHASH0xa97763ed0" [label="R"];
+    "ModeloUsuarioHASH0xa97763ed0" [label="COL-00089
+Maximo Derecho
+DEP-CIR"];
+}

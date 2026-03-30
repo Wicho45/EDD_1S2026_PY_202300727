@@ -12,6 +12,7 @@ use Vista::GestionEquipo;
 use Vista::GestionSuministros;
 use Vista::GestionPersonal;
 use Vista::VentanaMatriz;
+use Vista::VerReportes;
 
 sub mostrar_admin {
     my ($class, $arbol_usuarios, $usuario_actual, $lista_proveedores, $lista_medicamentos, $arbol_equipo, $arbol_suministros, $matriz_proveedores_fabricantes) = @_;
@@ -193,7 +194,7 @@ sub mostrar_admin {
             llenar_tabla_desde_avl($model, $arbol_usuarios);
         });
     });
-    $hbox_botones->pack_start($btn_registrar, 0, 0, 0);
+    $hbox_botones_2->pack_start($btn_registrar, 0, 0, 0);
 
     ## boton para ver matriz
     my $btn_matriz = Gtk3::Button->new_with_label("Matriz Proveedores-Fabricantes");
@@ -204,11 +205,17 @@ sub mostrar_admin {
 
     ## boton para reportes
     my $btn_reporte = Gtk3::Button->new_with_label("Reportes");
+    $btn_reporte->signal_connect(clicked => sub {
+        Vista::VerReportes->mostrar_ventana(
+            $arbol_usuarios, 
+            $arbol_equipo, 
+            $arbol_suministros, 
+            $matriz_proveedores_fabricantes, 
+            $lista_medicamentos, 
+            $lista_proveedores
+        );
+    });
     $hbox_botones_2->pack_start($btn_reporte, 0, 0, 5);
-
-    ## boton para recorridos
-    my $btn_recorrido = Gtk3::Button->new_with_label("Recorridos");
-    $hbox_botones_2->pack_start($btn_recorrido, 0, 0, 5);
 
     # boton para cerrar sesion
     my $btn_cerrar = Gtk3::Button->new_with_label("Cerrar Sesión");
