@@ -106,15 +106,15 @@ sub mostrar_login {
                 });
 
             } else {
-                user->mostrar_user();
-                $dialog->show();
+                my $u_obj = $usuario_encontrado->get_data();
+                my $v_user = user->mostrar_user($u_obj, $lista_medicamentos, $arbol_equipo, $arbol_suministros);
+                $v_user->signal_connect(destroy => sub { $dialog->show(); });
             }
 
         }
         elsif ($response eq '100') {
             my $dialog_signin = signin->mostrar_signin($arbol_usuarios, $dialog);
 
-            # Hacer que signin sea hijo del login
             $dialog_signin->set_transient_for($dialog);
             $dialog_signin->set_modal(1);
 

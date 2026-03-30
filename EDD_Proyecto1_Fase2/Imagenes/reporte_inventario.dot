@@ -5,6 +5,6 @@ digraph G {
     edge [dir=both, arrowsize=0.7];
     label="INVENTARIO DE MEDICAMENTOS"; labelloc="t";
 
-    inicio [label="INICIO", shape=box, fillcolor="#B0BEC5", style="filled,bold"];
-    fin [label="FIN", shape=box, fillcolor="#B0BEC5", style="filled,bold"];
+    inicio [label="INICIO", shape=box, fillcolor="gray", style="filled,bold"];
+    fin [label="FIN", shape=box, fillcolor="gray", style="filled,bold"];
 
