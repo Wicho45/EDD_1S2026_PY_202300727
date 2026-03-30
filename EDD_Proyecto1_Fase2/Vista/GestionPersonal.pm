@@ -17,6 +17,14 @@ sub mostrar_gestion {
     $vbox_principal->set_border_width(15);
     $window->add($vbox_principal);
 
+    # Logo
+    my $ruta_logo = "imagenes/logo.png"; 
+    if (-e $ruta_logo) {
+        my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file_at_scale($ruta_logo, 100, 100, 1);
+        my $logo = Gtk3::Image->new_from_pixbuf($pixbuf);
+        $vbox_principal->pack_start($logo, 0, 0, 5);
+    }
+
     my $label_rec = Gtk3::Label->new();
     $label_rec->set_markup("<span size='large' weight='bold'>Visualización de Personal por Recorridos</span>");
     $vbox_principal->pack_start($label_rec, 0, 0, 0);
