@@ -5,51 +5,51 @@ digraph G {
     label="ÁRBOL AVL - PERSONAL MÉDICO";
     labelloc="t";
 
-    "ModeloUsuarioHASH0xa0362f108" [label="COL-00020
+    "ModeloUsuarioHASH0xc5faec258" [label="COL-00020
 Rootberto Raiz
 DEP-MED"];
-    "ModeloUsuarioHASH0xa0362f108" -> "ModeloUsuarioHASH0xa0362e438" [label="L"];
-    "ModeloUsuarioHASH0xa0362e438" [label="COL-00006
+    "ModeloUsuarioHASH0xc5faec258" -> "ModeloUsuarioHASH0xc5faed648" [label="L"];
+    "ModeloUsuarioHASH0xc5faed648" [label="COL-00006
 Solito mequede
 DEP-CIR"];
-    "ModeloUsuarioHASH0xa0362e438" -> "ModeloUsuarioHASH0xa0362f960" [label="L"];
-    "ModeloUsuarioHASH0xa0362f960" [label="COL-00003
+    "ModeloUsuarioHASH0xc5faed648" -> "ModeloUsuarioHASH0xc5faecb70" [label="L"];
+    "ModeloUsuarioHASH0xc5faecb70" [label="COL-00003
 Carmen López
 DEP-CIR"];
-    "ModeloUsuarioHASH0xa0362f960" -> "ModeloUsuarioHASH0xa0487b840" [label="L"];
-    "ModeloUsuarioHASH0xa0487b840" [label="COL-00001
-Pendejo
-DEP-CIR"];
-    "ModeloUsuarioHASH0xa0362f960" -> "ModeloUsuarioHASH0xa0362e390" [label="R"];
-    "ModeloUsuarioHASH0xa0362e390" [label="COL-00005
+    "ModeloUsuarioHASH0xc5faecb70" -> "ModeloUsuarioHASH0xc5faed570" [label="R"];
+    "ModeloUsuarioHASH0xc5faed570" [label="COL-00005
 Casiano fuentes
 DEP-LAB"];
-    "ModeloUsuarioHASH0xa0362e438" -> "ModeloUsuarioHASH0xa0362e9d8" [label="R"];
-    "ModeloUsuarioHASH0xa0362e9d8" [label="COL-00018
+    "ModeloUsuarioHASH0xc5faed648" -> "ModeloUsuarioHASH0xc5faedbe8" [label="R"];
+    "ModeloUsuarioHASH0xc5faedbe8" [label="COL-00018
 Yano Salomon
 DEP-CIR"];
-    "ModeloUsuarioHASH0xa0362e9d8" -> "ModeloUsuarioHASH0xa04868930" [label="L"];
-    "ModeloUsuarioHASH0xa04868930" [label="COL-00010
+    "ModeloUsuarioHASH0xc5faedbe8" -> "ModeloUsuarioHASH0xc5f453a80" [label="L"];
+    "ModeloUsuarioHASH0xc5f453a80" [label="COL-00010
 Bruce willis
 DEP-LAB"];
-    "ModeloUsuarioHASH0xa0362f108" -> "ModeloUsuarioHASH0xa0362faf8" [label="R"];
-    "ModeloUsuarioHASH0xa0362faf8" [label="COL-00073
+    "ModeloUsuarioHASH0xc5faec258" -> "ModeloUsuarioHASH0xc5faecc30" [label="R"];
+    "ModeloUsuarioHASH0xc5faecc30" [label="COL-00073
 Benito doctor
 DEP-MED"];
-    "ModeloUsuarioHASH0xa0362faf8" -> "ModeloUsuarioHASH0xa03ff7588" [label="L"];
-    "ModeloUsuarioHASH0xa03ff7588" [label="COL-00051
+    "ModeloUsuarioHASH0xc5faecc30" -> "ModeloUsuarioHASH0xc60ccf6f0" [label="L"];
+    "ModeloUsuarioHASH0xc60ccf6f0" [label="COL-00051
 Ana Ramírez
 DEP-MED"];
-    "ModeloUsuarioHASH0xa03ff7588" -> "ModeloUsuarioHASH0xa04868378" [label="L"];
-    "ModeloUsuarioHASH0xa04868378" [label="COL-00048
+    "ModeloUsuarioHASH0xc60ccf6f0" -> "ModeloUsuarioHASH0xc5f4534c8" [label="L"];
+    "ModeloUsuarioHASH0xc5f4534c8" [label="COL-00048
 Jose Jose
 DEP-FAR"];
-    "ModeloUsuarioHASH0xa0362faf8" -> "ModeloUsuarioHASH0xa0362ffc0" [label="R"];
-    "ModeloUsuarioHASH0xa0362ffc0" [label="COL-00078
-Luis miguel
-DEP-LAB"];
-    "ModeloUsuarioHASH0xa0362ffc0" -> "ModeloUsuarioHASH0xa0362e8d0" [label="R"];
-    "ModeloUsuarioHASH0xa0362e8d0" [label="COL-00089
+    "ModeloUsuarioHASH0xc5faecc30" -> "ModeloUsuarioHASH0xc5faeda38" [label="R"];
+    "ModeloUsuarioHASH0xc5faeda38" [label="COL-00089
 Maximo Derecho
 DEP-CIR"];
+    "ModeloUsuarioHASH0xc5faeda38" -> "ModeloUsuarioHASH0xc5faed138" [label="L"];
+    "ModeloUsuarioHASH0xc5faed138" [label="COL-00078
+Luis miguel
+DEP-LAB"];
+    "ModeloUsuarioHASH0xc5faeda38" -> "ModeloUsuarioHASH0xc5f5c69f0" [label="R"];
+    "ModeloUsuarioHASH0xc5f5c69f0" [label="COL-12345
+Calificacion
+DEP-LAB"];
 }
