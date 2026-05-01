@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import RegistroUsuario from './pages/registroUsuario.tsx'
-import Administrador from './pages/administrador.tsx' 
+import Administrador from './pages/administrador.tsx'
+import Usuario from './pages/usuario.tsx'
 import logo from './assets/logo.png' 
 import './App.css'
 
@@ -21,7 +22,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('http://127.0.0.1:3000/login', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: usuario, password: password })
@@ -31,11 +32,12 @@ function Login() {
 
       if (response.ok) {
         console.log("Login exitoso. Rol:", data.tipo_usuario);
+        navigate('/usuario');
       } else {
         setError(data.mensaje || 'Credenciales incorrectas');
       }
     } catch (err) {
-      setError('Error de conexión con el servidor Mojolicious');
+      setError('Error de conexión con el servidor Mojolicious' + (err instanceof Error ? `: ${err.message}` : ''));
     }
   };
 
@@ -86,6 +88,7 @@ function App() {
         
         <Route path="/registro" element={<RegistroUsuario />} />
         <Route path="/administrador" element = {<Administrador />} />
+        <Route path="/usuario" element = {<Usuario />} />
       </Routes>
 
       <footer className="footer-global">

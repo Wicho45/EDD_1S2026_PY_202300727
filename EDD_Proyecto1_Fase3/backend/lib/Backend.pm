@@ -1,20 +1,31 @@
 package Backend;
-use Mojo::Base 'Mojolicious', -signatures;
+use Mojo::Base 'Mojolicious';
+use Backend::Controlador::avl;
+use Backend::Controlador::tablaHash;
 
-# This method will run once at server start
-sub startup ($self) {
+use FindBin;
+use lib "$FindBin::Bin/../../../lib";
 
-  # Load configuration from config file
-  my $config = $self->plugin('NotYAMLConfig');
+sub startup {
+    my $self = shift;
 
-  # Configure the application
-  $self->secrets($config->{secrets});
+    $self->attr(avl_usuarios => sub { Backend::Controlador::avl->new });
+    $self->attr(tabla_hash_personal => sub { Backend::Controlador::tablaHash->new });
 
-  # Router
-  my $r = $self->routes;
+    $self->hook(before_dispatch => sub {
+        my $c = shift;
+        $c->res->headers->header('Access-Control-Allow-Origin' => '*');
+        $c->res->headers->header('Access-Control-Allow-Methods' => 'GET, POST, OPTIONS');
+        $c->res->headers->header('Access-Control-Allow-Headers' => 'Content-Type, Authorization');
+        
+        if ($c->req->method eq 'OPTIONS') {
+            $c->render(text => '', status => 200);
+        }
+    });
 
-  # Normal route to controller
-  $r->get('/')->to('Example#welcome');
+    my $r = $self->routes;
+    $r->post('/registro')->to('usuario#registrar');
+    $r->post('/login')->to('usuario#login');
 }
 
 1;

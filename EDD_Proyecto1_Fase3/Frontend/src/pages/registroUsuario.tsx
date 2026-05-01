@@ -34,7 +34,7 @@ const RegistroUsuario = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/registro', {
+      const response = await fetch('http://127.0.0.1:3000/registro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -55,7 +55,7 @@ const RegistroUsuario = () => {
         setError(data.mensaje || 'Error al registrar usuario');
       }
     } catch (err) {
-      setError('No se pudo conectar con el servidor de MedTrack');
+      setError('No se pudo conectar con el servidor de MedTrack o problema del servidor' + (err instanceof Error ? `: ${err.message}` : ''));
     }
   };
 
