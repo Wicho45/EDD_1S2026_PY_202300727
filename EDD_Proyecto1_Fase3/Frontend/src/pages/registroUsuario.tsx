@@ -9,7 +9,7 @@ const RegistroUsuario = () => {
     numero_colegio: '',
     nombre_completo: '',
     tipo_usuario: '', 
-    departamento_texto: '', 
+    departamento_texto: 'Sin departamento asignado', 
     especialidad: '',
     contrasena: '',
     confirmar_contrasena: ''
@@ -18,11 +18,13 @@ const RegistroUsuario = () => {
   const [error, setError] = useState('');
 
   const departamentosDisponibles = useMemo(() => {
+    const base = ["Sin departamento asignado"];
+    
     switch (formData.tipo_usuario) {
-      case 'TIPO-01': return ["Medicina general y consulta externa"];
-      case 'TIPO-02': return ["Cirugía y quirofanos"];
-      case 'TIPO-03': return ["Medicina general y consulta externa", "Cirugía y quirofanos", "Farmacia hospitalaria"];
-      case 'TIPO-04': return ["Laboratorio clínico"];
+      case 'TIPO-01': return [...base, "Medicina general y consulta externa"];
+      case 'TIPO-02': return [...base, "Cirugía y quirofanos"];
+      case 'TIPO-03': return [...base, "Medicina general y consulta externa", "Cirugía y quirofanos", "Farmacia hospitalaria"];
+      case 'TIPO-04': return [...base, "Laboratorio clínico"];
       default: return [];
     }
   }, [formData.tipo_usuario]);
@@ -31,15 +33,10 @@ const RegistroUsuario = () => {
     const { name, value } = e.target;
     
     if (name === 'tipo_usuario') {
-        let primerDep = "";
-        if (value === 'TIPO-01' || value === 'TIPO-03') primerDep = "Medicina general y consulta externa";
-        else if (value === 'TIPO-02') primerDep = "Cirugía y quirofanos";
-        else if (value === 'TIPO-04') primerDep = "Laboratorio clínico";
-
         setFormData(prev => ({
             ...prev,
             tipo_usuario: value,
-            departamento_texto: primerDep
+            departamento_texto: "Sin departamento asignado"
         }));
     } else {
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -51,14 +48,20 @@ const RegistroUsuario = () => {
         "Medicina general y consulta externa": "DEP-MED",
         "Cirugía y quirofanos": "DEP-CIR",
         "Laboratorio clínico": "DEP-LAB",
-        "Farmacia hospitalaria": "DEP-FAR"
+        "Farmacia hospitalaria": "DEP-FAR",
+        "Sin departamento asignado": "null"
     };
-    return mapa[actual] || "";
+    return mapa[actual] || "null";
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (formData.contrasena !== formData.confirmar_contrasena) {
+        setError("Las contraseñas no coinciden.");
+        return;
+    }
 
     if (!/^COL-\d{5}$/.test(formData.numero_colegio)) {
         setError("Formato incorrecto (COL-XXXXX).");
@@ -87,7 +90,7 @@ const RegistroUsuario = () => {
         setError(data.mensaje || 'Error al registrar');
       }
     } catch (err) {
-      setError('No se pudo conectar con el servidor.' + (err instanceof Error ? `: ${err.message}` : ''));
+      setError('No se pudo conectar con el servidor.' + (err instanceof Error ? err.message : ""));
     }
   };
 
@@ -161,7 +164,7 @@ const RegistroUsuario = () => {
 
           <div className="button-container">
             <button type="submit" className="btn-main">Registrar</button>
-            <button type="button" className="btn-secondary" onClick={() => navigate('/')}>Regresar</button>
+            <button type="button" className="btn-secondary" onClick={() => navigate(-1)}>Regresar</button>
           </div>
         </form>
       </div>

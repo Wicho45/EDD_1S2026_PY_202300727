@@ -44,9 +44,17 @@ const Administrador = () => {
 
         const reader = new FileReader();
         reader.onload = async (e) => {
+            let jsonContent;
+            
             try {
-                const jsonContent = JSON.parse(e.target?.result as string);
-                
+                jsonContent = JSON.parse(e.target?.result as string);
+            } catch (err) {
+                alert("Error: El archivo seleccionado no es un JSON válido." + (err instanceof Error ? err.message : ""));
+                if (fileInputRef.current) fileInputRef.current.value = "";
+                return; 
+            }
+
+            try {
                 const response = await fetch('http://127.0.0.1:3000/carga-masiva', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -54,14 +62,23 @@ const Administrador = () => {
                 });
 
                 if (response.ok) {
-                    alert("¡Carga masiva procesada exitosamente!");
-                    await obtenerUsuarios(); // Actualizamos la tabla
+                    const data = await response.json();
+                    alert("¡Éxito!\n" + (data.mensaje || "Carga masiva procesada."));
+                    await obtenerUsuarios(); 
                 } else {
-                    const errorData = await response.json();
-                    alert("Error en el servidor: " + (errorData.mensaje || "No se pudo procesar"));
+                    const errorText = await response.text();
+                    console.error("Detalle del error del servidor:", errorText);
+                    
+                    try {
+                        const errorData = JSON.parse(errorText);
+                        alert("Error en el servidor: " + (errorData.mensaje || "No se pudo procesar"));
+                    } catch (parseErr) {
+                        alert("Error del servidor. Revisa la consola (F12) para ver los detalles técnicos." + (parseErr instanceof Error ? parseErr.message : ""));
+                    }
                 }
             } catch (err) {
-                alert("Error: El archivo seleccionado no es un JSON válido." + (err instanceof Error ? err.message : "")); // No es un error de React
+                console.error("Error de conexión:", err);
+                alert("Error de red: No se pudo comunicar con el servidor.");
             } finally {
                 if (fileInputRef.current) fileInputRef.current.value = "";
             }
@@ -103,7 +120,9 @@ const Administrador = () => {
                                         <td>{u.username}</td>
                                         <td>{u.tipo}</td>
                                         <td>{u.especialidad}</td>
-                                        <td>{u.departamento}</td>
+                                        <td className={!u.departamento ? "text-null" : ""}>
+                                            {u.departamento && u.departamento !== "" ? u.departamento : "null"}
+                                        </td>
                                     </tr>
                                 ))
                             ) : (

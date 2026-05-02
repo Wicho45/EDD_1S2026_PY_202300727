@@ -2,17 +2,18 @@ package Backend::Modelo::Usuario;
 
 use strict;
 use warnings;
+use Backend::Controlador::listaSimple; 
 
-##Constructor y getters/setters para la clase Usuario
 sub new{
     my ($class, $username, $tipo, $numero_colegio, $password, $departamento, $especialidad) = @_;
     my $self = {
-        username => $username,
-        tipo => $tipo,
+        username       => $username,
+        tipo           => $tipo,
         numero_colegio => $numero_colegio,
-        password => $password,
-        departamento => $departamento,
-        especialidad => $especialidad,
+        password       => $password,
+        departamento   => $departamento,
+        especialidad   => $especialidad,
+        cola_solicitudes => Backend::Controlador::listaSimple->new(), 
     };
     return bless $self, $class;
 }
@@ -69,6 +70,17 @@ sub get_especialidad {
 sub set_especialidad {
     my ($self, $especialidad) = @_;
     $self->{especialidad} = $especialidad;
+}
+
+
+sub get_cola_solicitudes {
+    my ($self) = @_;
+    return $self->{cola_solicitudes};
+}
+
+sub agregar_solicitud {
+    my ($self, $obj_relacion) = @_;
+    $self->{cola_solicitudes}->insertar($obj_relacion);
 }
 
 1;

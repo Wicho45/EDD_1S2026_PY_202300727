@@ -12,11 +12,16 @@ use Backend::Modelo::Proveedor;
 use Backend::Modelo::Medicamento;
 use Backend::Modelo::Equipo;
 use Backend::Modelo::Suministro;
+use Backend::Modelo::Relacion; # Importamos el modelo de relaciones
 
 sub procesar_carga_web {
     my ($class, $data, $app_ctx) = @_;
 
-    if (exists $data->{usuarios}) {
+    # Si el JSON principal es un arreglo, sabemos que es el archivo de relaciones
+    if (ref($data) eq 'ARRAY') {
+        return _procesar_relaciones($data, $app_ctx);
+    } 
+    elsif (exists $data->{usuarios}) {
         return _procesar_usuarios($data->{usuarios}, $app_ctx);
     } 
     elsif (exists $data->{proveedor}) {
@@ -49,10 +54,55 @@ sub _procesar_usuarios {
             $ctx->avl_usuarios->insertar($nuevo_usuario);        
             $ctx->tabla_hash_personal->insertar($nuevo_usuario); 
             
+            # Verificación de seguridad: si el grafo existe en Backend.pm, agregamos el vértice
+            if ($ctx->can('grafo_colaboracion') && defined $ctx->grafo_colaboracion) {
+                $ctx->grafo_colaboracion->agregar_vertice($u->{numero_colegio}, $nuevo_usuario);
+            }
+            
             $conteo++;
         }
     }
     return (1, "Se cargaron $conteo nuevos usuarios exitosamente.");
+}
+
+sub _procesar_relaciones {
+    my ($lista, $ctx) = @_;
+    my $activas = 0;
+    my $pendientes = 0;
+
+    if (!$ctx->can('grafo_colaboracion') || !defined $ctx->grafo_colaboracion) {
+        return (0, "Error del servidor: El Grafo de Colaboración no está inicializado en Backend.pm");
+    }
+
+    foreach my $r (@$lista) {
+        my $solicitante = $r->{solicitante};
+        my $receptor    = $r->{receptor};
+        my $estado      = $r->{estado} // "";
+
+        if ($estado eq "ACTIVA") {
+            # Las activas van directo al grafo como aristas
+            my $res = $ctx->grafo_colaboracion->agregar_arista($solicitante, $receptor, $estado);
+            if ($res) {
+                $activas++;
+            }
+        } 
+        elsif ($estado eq "PENDIENTE") {
+            # Las pendientes van al usuario receptor
+            my $nodo_receptor = $ctx->avl_usuarios->buscar(undef, $receptor);
+            if ($nodo_receptor) {
+                my $obj_relacion = Backend::Modelo::Relacion->new($solicitante, $receptor, $estado);
+                
+                # Verificamos que el usuario tenga el método para recibir la solicitud para evitar caídas
+                if ($nodo_receptor->get_data()->can('agregar_solicitud')) {
+                    $nodo_receptor->get_data()->agregar_solicitud($obj_relacion);
+                    $pendientes++;
+                } else {
+                    print "Advertencia: El modelo Usuario no tiene el método 'agregar_solicitud'\n";
+                }
+            }
+        }
+    }
+    return (1, "Carga de Relaciones: $activas activas (Grafo) y $pendientes pendientes.");
 }
 
 sub _procesar_proveedores {
