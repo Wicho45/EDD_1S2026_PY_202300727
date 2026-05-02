@@ -331,4 +331,25 @@ sub _extraer_id_numerico {
     return int($num || 0);
 }
 
+## Metodos para la API
+sub obtener_todos {
+    my ($self) = @_;
+    my @arreglo;
+    if ($self->is_empty()) {
+        return \@arreglo;
+    }
+    $self->_exportar_inorden($self->{root}, \@arreglo);
+    return \@arreglo;
+}
+
+sub _exportar_inorden {
+    my ($self, $nodo, $arreglo) = @_;
+    return unless defined($nodo);
+
+    $self->_exportar_inorden($nodo->get_left(), $arreglo);
+    
+    push @$arreglo, $nodo->get_data();
+    
+    $self->_exportar_inorden($nodo->get_right(), $arreglo);
+}
 1;

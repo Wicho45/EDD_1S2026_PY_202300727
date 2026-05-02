@@ -26,6 +26,8 @@ sub startup {
     my $r = $self->routes;
     $r->post('/registro')->to('usuario#registrar');
     $r->post('/login')->to('usuario#login');
+    $r->post('/carga-masiva')->to('usuario#procesar_carga');
+    $r->get('/personal')->to('usuario#listar_personal');
 }
 
 1;

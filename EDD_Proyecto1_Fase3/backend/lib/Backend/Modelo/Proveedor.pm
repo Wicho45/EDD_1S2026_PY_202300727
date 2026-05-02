@@ -3,8 +3,11 @@ package Backend::Modelo::Proveedor;
 use strict;
 use warnings;
 
-use Controlador::listaSimple;
-use constant ListaSimple => 'Controlador::listaSimple';
+use FindBin;
+use lib "$FindBin::Bin/../../../lib";
+
+use Backend::Controlador::listaSimple;
+use constant ListaSimple => 'Backend::Controlador::listaSimple';
 
 sub new {
     my($class, $nit, $nombre_empresa, $contacto_principal, $telefono, $direccion)= @_;

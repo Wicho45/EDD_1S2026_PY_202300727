@@ -14,6 +14,11 @@ function Login() {
 
   const handleLogin = async () => {
     setError('');
+
+    if (usuario.length === 0 || password.length === 0) {
+      setError('Por favor, rellene todos los campos.');
+      return;
+    }
     
     if (usuario === 'AdminHospital' && password === 'MedTrack2026') {
         console.log("Acceso concedido como Administrador");

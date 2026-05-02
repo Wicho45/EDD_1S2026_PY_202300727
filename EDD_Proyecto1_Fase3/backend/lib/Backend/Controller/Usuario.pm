@@ -1,6 +1,9 @@
 package Backend::Controller::Usuario;
+
+
 use Mojo::Base 'Mojolicious::Controller';
 use Backend::Modelo::Usuario;
+use Backend::Controlador::cargaMasiva;
 
 sub registrar {
     my $self = shift;
@@ -56,6 +59,42 @@ sub login {
     }
 
     return $self->render(json => {mensaje => "Usuario no encontrado"}, status => 404);
+}
+
+sub procesar_carga {
+    my $self = shift;
+    my $json_data = $self->req->json;
+
+    if (!$json_data) {
+        return $self->render(json => { mensaje => "No se recibió información JSON" }, status => 400);
+    }
+
+    my ($exito, $mensaje) = Backend::Controlador::cargaMasiva->procesar_carga_web($json_data, $self->app);
+
+    if ($exito) {
+        return $self->render(json => { mensaje => $mensaje }, status => 200);
+    } else {
+        return $self->render(json => { mensaje => $mensaje }, status => 500);
+    }
+}
+
+sub listar_personal {
+    my $self = shift;
+
+    my $lista_objetos = $self->app->avl_usuarios->obtener_todos(); 
+
+    my @data_json;
+    foreach my $u (@$lista_objetos) {
+        push @data_json, {
+            numero_colegio => $u->get_numero_colegio(),
+            username       => $u->get_username(),
+            tipo           => $u->get_tipo(),
+            especialidad   => $u->get_especialidad(),
+            departamento   => $u->get_departamento(),
+        };
+    }
+
+    return $self->render(json => \@data_json);
 }
 
 1;

@@ -1,0 +1,237 @@
+:root {
+--med-blue: #35a0de;
+--med-green: #2a9d8f;
+--med-bg: #121a28;
+--med-card: #161b22;
+--med-text: #f0f6fc;
+--med-accent: #ff9f1c;
+--med-red: #e63946;
+--med-purple: #7209b7;
+--border: #30363d;
+}
+
+#admin-container {
+display: flex;
+justify-content: center;
+align-items: flex-start;
+min-height: 100vh;
+background-color: var(--med-bg);
+padding: 40px 20px;
+color: var(--med-text);
+font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.admin-card {
+background-color: var(--med-card);
+width: 100%;
+max-width: 1100px;
+border-radius: 24px;
+padding: 40px;
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+border: 1px solid var(--border);
+}
+
+/* Encabezado */
+.admin-header {
+text-align: center;
+margin-bottom: 30px;
+border-bottom: 1px solid var(--border);
+padding-bottom: 20px;
+}
+
+.admin-logo-small {
+width: 120px;
+margin-bottom: 10px;
+}
+
+.admin-header h1 {
+font-size: 2rem;
+color: var(--med-blue);
+margin: 10px 0;
+}
+
+.admin-header p {
+color: #8b949e;
+}
+
+.admin-header strong {
+color: var(--med-blue);
+}
+
+/* Contenedor de la Tabla */
+.table-container {
+background-color: #0d1117;
+border: 1px solid var(--border);
+border-radius: 12px;
+margin-bottom: 35px;
+max-height: 400px;
+overflow-y: auto;
+}
+
+.admin-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+
+.admin-table th {
+background-color: #161b22;
+color: var(--med-blue);
+padding: 15px;
+text-align: left;
+position: sticky;
+top: 0;
+z-index: 1;
+border-bottom: 2px solid var(--border);
+text-transform: uppercase;
+letter-spacing: 1px;
+font-size: 0.75rem;
+}
+
+.admin-table td {
+padding: 14px 15px;
+border-bottom: 1px solid var(--border);
+color: #c9d1d9;
+}
+
+.admin-table tr:hover {
+background-color: rgba(53, 160, 222, 0.05);
+}
+
+/* Sección de Acciones y Botones */
+.admin-actions {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.action-row {
+display: flex;
+justify-content: center;
+gap: 15px;
+flex-wrap: wrap;
+}
+
+.btn-action, .btn-report, .btn-exit {
+padding: 14px 24px;
+border-radius: 10px;
+font-weight: 700;
+font-size: 0.85rem;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+min-width: 200px;
+border: none;
+display: flex;
+align-items: center;
+justify-content: center;
+text-transform: uppercase;
+}
+
+/* Estilos de botones específicos */
+.btn-action {
+background-color: var(--med-blue);
+color: #0b0e14;
+}
+
+.btn-action:hover {
+background-color: #58c7fb;
+transform: translateY(-3px);
+box-shadow: 0 5px 15px rgba(53, 160, 222, 0.3);
+}
+
+/* Botones de Reporte (Ghost style) */
+.btn-report {
+background-color: transparent;
+border: 2px solid var(--med-green);
+color: var(--med-green);
+}
+
+.btn-report:hover {
+background-color: var(--med-green);
+color: #0b0e14;
+transform: translateY(-3px);
+}
+
+/* Botones destacados (Hash y Grafos) */
+.btn-report.accent {
+border-color: var(--med-accent);
+color: var(--med-accent);
+}
+
+.btn-report.accent:hover {
+background-color: var(--med-accent);
+color: #0b0e14;
+}
+
+/* Botón Salir */
+.btn-exit {
+background-color: rgba(230, 57, 70, 0.1);
+border: 2px solid var(--med-red);
+color: var(--med-red);
+}
+
+.btn-exit:hover {
+background-color: var(--med-red);
+color: white;
+transform: scale(0.98);
+}
+
+/* Footer */
+.footer-card {
+margin-top: 40px;
+padding-top: 20px;
+border-top: 1px solid var(--border);
+text-align: center;
+font-size: 0.8rem;
+color: #6e7681;
+}
+
+.footer-card strong {
+color: var(--med-green);
+}
+
+/* Scrollbar personalizado para la tabla */
+.table-container::-webkit-scrollbar {
+width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+background: #0d1117;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+background: var(--border);
+border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+background: var(--med-blue);
+}
+
+.refresh-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.btn-refresh {
+    background-color: transparent;
+    border: 1px solid var(--med-blue);
+    color: var(--med-blue);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.btn-refresh:hover {
+    background-color: var(--med-blue);
+    color: #0d1117;
+    transform: scale(1.05);
+}
+
+.btn-refresh:active {
+    transform: rotate(20deg); /* Pequeño feedback visual de giro */
+}

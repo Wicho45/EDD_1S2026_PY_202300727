@@ -1,0 +1,116 @@
+package Backend::Controlador::listaCircularDoblemente;
+
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../../../lib";
+
+use Backend::Modelo::Nodo;
+use constant Nodo => 'Backend::Modelo::Nodo';
+
+sub new {
+    my ($class) = @_;
+    my $self = { cabeza => undef };
+    bless $self, $class;
+    return $self;
+}
+
+sub is_empty {
+    my ($self) = @_;
+    return !defined($self->{cabeza});
+}
+
+sub insertar {
+    my ($self, $data) = @_;
+    my $nuevo = Modelo::Nodo->new($data);
+
+    if ($self->is_empty()) {
+
+        $self->{cabeza} = $nuevo;
+        $nuevo->set_next($nuevo);
+        $nuevo->set_prev($nuevo);
+    } else {
+        my $cabeza = $self->{cabeza};
+        my $ultimo = $cabeza->get_prev();
+
+        $nuevo->set_next($cabeza);
+        $nuevo->set_prev($ultimo);
+        
+        $ultimo->set_next($nuevo);
+        $cabeza->set_prev($nuevo);
+    }
+}
+
+sub eliminar {
+    my ($self, $nit) = @_;
+
+    if ($self->is_empty()) {
+        print "\nLa lista está vacía, nada que eliminar.\n";
+        return;
+    }
+
+    my $actual = $self->{cabeza};
+    my $encontrado = 0;
+
+    do {
+        if ($actual->get_data()->get_nit() eq $nit) {
+            $encontrado = 1;
+            last;
+        }
+        $actual = $actual->get_next();
+    } while ($actual != $self->{cabeza});
+
+    if ($encontrado) {
+
+        if ($actual->get_next() == $actual) {
+            $self->{cabeza} = undef;
+        } 
+        else {
+
+            my $anterior = $actual->get_prev();
+            my $siguiente = $actual->get_next();
+
+            $anterior->set_next($siguiente);
+            $siguiente->set_prev($anterior);
+
+            if ($actual == $self->{cabeza}) {
+                $self->{cabeza} = $siguiente;
+            }
+        }
+        print "\nProveedor con NIT '$nit' eliminado correctamente.\n";
+    } else {
+        print "\nEl proveedor con NIT '$nit' no se encuentra en la lista.\n";
+    }
+}
+
+sub imprimir {
+    my ($self) = @_;
+    return print "Lista vacía\n" if $self->is_empty();
+
+    my $actual = $self->{cabeza};
+    print "Lista Circular Doble: ";
+    do {
+        my $p = $actual->get_data();
+        print "[" . $p->get_nit() . ": " . $p->get_nombre_empresa() . "] <-> ";
+        $actual = $actual->get_next();
+    } while ($actual != $self->{cabeza});
+    print "(regresa al inicio)\n";
+}
+
+sub buscar {
+    my ($self, $nit) = @_;
+    return undef if $self->is_empty();
+
+    my $actual = $self->{cabeza};
+    do {
+        if ($actual->get_data()->get_nit() eq $nit) {
+            return $actual->get_data();
+        }
+        $actual = $actual->get_next();
+    } while ($actual != $self->{cabeza});
+
+    return undef;
+}
+
+1;
