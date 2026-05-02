@@ -153,13 +153,27 @@ const Administrador = () => {
                     </div>
                     
                     <div className="action-row">
-                        <button className="btn-report">Reporte AVL</button>
-                        <button className="btn-report accent">Reporte Tabla Hash</button>
-                        <button className="btn-report accent">Reporte Grafo Colaboración</button>
+                        <button onClick={() => navigate('/equipos')} className="btn-action">
+                            Gestionar Equipos
+                        </button>
+                        <button onClick={() => navigate('/suministros')} className="btn-action">
+                            Gestionar Suministros
+                        </button>
+                        <button onClick={() => navigate('/matriz')} className="btn-action">
+                            Matriz Proveedores
+                        </button>
+                        <button onClick={() => navigate('/asignacion')} className="btn-action">
+                            Panel de Asignación
+                        </button>
                     </div>
                     
                     <div className="action-row">
-                        <button onClick={() => navigate('/')} className="btn-exit">Cerrar Sesión</button>
+                        <button onClick={() => navigate('/reportes')} className="btn-report accent">
+                            Ver Reportes
+                        </button>
+                        <button onClick={() => navigate('/')} className="btn-exit">
+                            Cerrar Sesión
+                        </button>
                     </div>
                 </div>
 

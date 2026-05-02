@@ -84,7 +84,7 @@ const RegistroUsuario = () => {
 
       if (response.ok) {
         alert("Usuario registrado exitosamente.");
-        navigate('/'); 
+        navigate(-1); 
       } else {
         const data = await response.json();
         setError(data.mensaje || 'Error al registrar');

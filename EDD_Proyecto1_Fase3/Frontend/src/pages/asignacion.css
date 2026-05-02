@@ -1,0 +1,245 @@
+:root {
+--med-blue: #35a0de;
+--med-green: #2a9d8f;
+--med-bg: #121a28;
+--med-card: #161b22;
+--med-text: #f0f6fc;
+--med-input-bg: #0d1117;
+--med-border: #30363d;
+}
+
+#asignacion-container {
+display: flex;
+align-items: flex-start;
+justify-content: center;
+min-height: 100vh;
+background-color: var(--med-bg);
+padding: 40px 20px;
+font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.asignacion-card {
+background-color: var(--med-card);
+padding: 45px;
+border-radius: 24px;
+width: 100%;
+max-width: 900px;
+box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+color: var(--med-text);
+}
+
+.asignacion-header {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 2rem;
+position: relative;
+}
+
+.asignacion-logo {
+width: 180px;
+margin-bottom: 10px;
+}
+
+.asignacion-header h1 {
+font-size: 2.2rem;
+font-weight: 800;
+color: var(--med-blue);
+margin: 0;
+text-align: center;
+}
+
+.btn-back {
+position: absolute;
+left: 0;
+top: 50%;
+transform: translateY(-50%);
+background: transparent;
+border: 1.5px solid var(--med-blue);
+color: var(--med-blue);
+border-radius: 10px;
+font-weight: 700;
+cursor: pointer;
+font-size: 0.85rem;
+padding: 10px 16px;
+transition: all 0.2s;
+}
+
+.btn-back:hover {
+background-color: rgba(53, 160, 222, 0.1);
+transform: translateY(-50%) translateX(-2px);
+}
+
+.seccion-pendientes h2, .seccion-formulario h2 {
+color: var(--med-blue);
+font-size: 1.4rem;
+margin-bottom: 0.5rem;
+font-weight: 700;
+}
+
+.instruccion {
+color: #8b949e;
+font-size: 0.9rem;
+margin-bottom: 1rem;
+}
+
+.table-container-asignacion {
+max-height: 280px;
+overflow-y: auto;
+border: 1.5px solid var(--med-border);
+border-radius: 10px;
+margin-bottom: 1rem;
+background-color: var(--med-input-bg);
+}
+
+.table-container-asignacion::-webkit-scrollbar {
+width: 8px;
+}
+.table-container-asignacion::-webkit-scrollbar-track {
+background: var(--med-input-bg);
+}
+.table-container-asignacion::-webkit-scrollbar-thumb {
+background: var(--med-border);
+border-radius: 4px;
+}
+
+.tabla-pendientes {
+width: 100%;
+border-collapse: collapse;
+}
+
+.tabla-pendientes th, .tabla-pendientes td {
+padding: 12px 15px;
+text-align: left;
+border-bottom: 1px solid var(--med-border);
+color: var(--med-text);
+}
+
+.tabla-pendientes th {
+background-color: var(--med-card);
+color: var(--med-blue);
+position: sticky;
+top: 0;
+font-weight: 700;
+font-size: 0.85rem;
+text-transform: uppercase;
+z-index: 1;
+}
+
+.tabla-pendientes tbody tr {
+cursor: pointer;
+transition: background-color 0.2s;
+}
+
+.tabla-pendientes tbody tr:hover {
+background-color: rgba(53, 160, 222, 0.05);
+}
+
+.fila-seleccionada {
+background-color: rgba(53, 160, 222, 0.15) !important;
+border-left: 4px solid var(--med-blue);
+}
+
+.badge-pendiente {
+color: #e3b341 !important;
+font-weight: bold;
+}
+
+.divider {
+border: 0;
+height: 1.5px;
+background: var(--med-border);
+margin: 2rem 0;
+}
+
+.form-asignacion {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.form-grupo {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.form-grupo label {
+font-size: 0.7rem;
+font-weight: 700;
+color: var(--med-blue);
+text-transform: uppercase;
+}
+
+.form-grupo select {
+background-color: var(--med-input-bg);
+border: 1.5px solid var(--med-border);
+padding: 14px;
+border-radius: 10px;
+color: white;
+font-size: 0.95rem;
+width: 100%;
+box-sizing: border-box;
+cursor: pointer;
+}
+
+.form-grupo select:focus {
+outline: none;
+border-color: var(--med-blue);
+}
+
+.form-grupo select:disabled {
+background-color: #090c10;
+color: #6e7681;
+cursor: not-allowed;
+border-color: #21262d;
+}
+
+.nota-tipo {
+color: var(--med-green);
+font-size: 0.85rem;
+margin-top: 4px;
+}
+
+.form-acciones {
+margin-top: 10px;
+}
+
+.btn-asignar {
+background-color: var(--med-blue);
+color: #0b0e14;
+border: none;
+padding: 16px;
+border-radius: 10px;
+font-weight: 700;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.2s;
+width: 100%;
+}
+
+.btn-asignar:hover {
+background-color: #00d4ff;
+transform: translateY(-2px);
+}
+
+.mensaje-alerta {
+padding: 12px;
+border-radius: 8px;
+margin-bottom: 20px;
+font-weight: bold;
+text-align: center;
+font-size: 0.85rem;
+}
+
+.mensaje-alerta.error {
+background-color: rgba(255, 0, 0, 0.1);
+border: 1px solid rgba(255, 0, 0, 0.3);
+color: #ff6b6b;
+}
+
+.mensaje-alerta.exito {
+background-color: rgba(42, 157, 143, 0.1);
+border: 1px solid rgba(42, 157, 143, 0.3);
+color: var(--med-green);
+}

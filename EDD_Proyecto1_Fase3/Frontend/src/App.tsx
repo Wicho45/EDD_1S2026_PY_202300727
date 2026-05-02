@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import RegistroUsuario from './pages/registroUsuario.tsx'
 import Administrador from './pages/administrador.tsx'
 import Usuario from './pages/usuario.tsx'
+import Asignacion from './pages/asignacion.tsx'
 import logo from './assets/logo.png' 
 import './App.css'
 
@@ -94,6 +95,7 @@ function App() {
         <Route path="/registro" element={<RegistroUsuario />} />
         <Route path="/administrador" element = {<Administrador />} />
         <Route path="/usuario" element = {<Usuario />} />
+        <Route path="/asignacion" element = {<Asignacion />} />
       </Routes>
 
       <footer className="footer-global">
